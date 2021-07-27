@@ -45,8 +45,8 @@ function create ()
         //sets the starting grid block false
         //save the previous position in case the user drags the pipe to an occupied grid cell
         previous_position = [gameObject.x, gameObject.y];
-        previous_x = (pipe.x/CELL_WIDTH)-1;
-        previous_y = (pipe.y/CELL_WIDTH)-1;
+        previous_x = (gameObject.x/CELL_WIDTH)-1;
+        previous_y = (gameObject.y/CELL_WIDTH)-1;
         grid[previous_x][previous_y] = false;
     });
     
@@ -56,8 +56,8 @@ function create ()
     });
 
     this.input.on('dragend', function(pointer, gameObject, dropZone) {
-        var x = (pipe.x/CELL_WIDTH)-1;
-        var y = (pipe.y/CELL_WIDTH)-1;
+        var x = (gameObject.x/CELL_WIDTH)-1;
+        var y = (gameObject.y/CELL_WIDTH)-1;
         
         if (grid[x][y] === true){
             //returns the pipe to its previous position
