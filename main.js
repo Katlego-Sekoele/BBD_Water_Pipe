@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 743.75,
+    height: 743.75,
     physics: {
         default: 'arcade',
         arcade: {
@@ -10,38 +10,86 @@ var config = {
     },
     scene: {
         preload: preload,
-        create: create
+        create: create,
+        update: update
     }
 };
 
-var game = new Phaser.Game(config);
+var game = new Phaser.Game(config); 
+var OFFSET = 21.875;
+var CELL_WIDTH = 43.75;
 
 function preload ()
 {
-    this.load.setBaseURL('http://labs.phaser.io');
-
-    this.load.image('sky', 'assets/skies/space3.png');
-    this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-    this.load.image('red', 'assets/particles/red.png');
+    this.load.image('board', 'assets/grid.png');
+    this.load.image('pipe', 'assets/pipe.png');
 }
 
 function create ()
 {
-    this.add.image(400, 300, 'sky');
 
-    var particles = this.add.particles('red');
+    grid = create_grid(); // creates a 2D array of 16x16
 
-    var emitter = particles.createEmitter({
-        speed: 100,
-        scale: { start: 1, end: 0 },
-        blendMode: 'ADD'
+    this.add.image(OFFSET, OFFSET, 'board').setOrigin(0,0); //set the origin of the image to the top-left and add the image to the scene
+    var pipe = this.add.sprite(CELL_WIDTH, CELL_WIDTH, 'pipe').setInteractive();
+    pipe.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+    this.input.setDraggable(pipe);
+
+    var previous_position; // previous position in pixels
+    var previous_x; // previous x position in the 2D array
+    var previous_y; // previous y position in the 2D array
+
+    
+    
+    this.input.on('dragstart', function (pointer, gameObject, dropZone){
+        //sets the starting grid block false
+        //save the previous position in case the user drags the pipe to an occupied grid cell
+        previous_position = [gameObject.x, gameObject.y];
+        previous_x = (pipe.x/CELL_WIDTH)-1;
+        previous_y = (pipe.y/CELL_WIDTH)-1;
+        grid[previous_x][previous_y] = false;
+    });
+    
+    this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
+        gameObject.x = Phaser.Math.Snap.To(dragX, CELL_WIDTH);
+        gameObject.y = Phaser.Math.Snap.To(dragY, CELL_WIDTH);
     });
 
-    var logo = this.physics.add.image(400, 100, 'logo');
+    this.input.on('dragend', function(pointer, gameObject, dropZone) {
+        var x = (pipe.x/CELL_WIDTH)-1;
+        var y = (pipe.y/CELL_WIDTH)-1;
+        
+        if (grid[x][y] === true){
+            //returns the pipe to its previous position
+            gameObject.x = previous_position[0];
+            gameObject.y = previous_position[1];
+            console.log(previous_x, previous_y);
+            grid[previous_x][previous_y] = true;
+        }else{
+            //sets the new grid position as true (i.e. occupied)
+            grid[x][y] = true;
+        }  
+        
+    });
 
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
+    this.input.on('gameobjectdown', function(pointer, gameObject){
+        //rotates the pipe 90 degrees on click
+        //FIX: the game rotates the object when the user drags, 
+        gameObject.angle += 90;
+    });
+}
 
-    emitter.startFollow(logo);
+function update(){
+
+}
+
+function create_grid(){
+    var grid = new Array(16);
+
+    for (var i = 0; i < grid.length; i++){
+        grid[i] = new Array(16);
+    }
+
+    //NOTE: grid[x][y]
+    return grid;
 }
