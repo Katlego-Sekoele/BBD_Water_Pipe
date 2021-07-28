@@ -11,11 +11,11 @@ class gameEntity
 		this.purity = purity; 
 	}
 	
-	function hasWater() {
+	hasWater() {
 		if (this.purity === 0)
 			return false;
 		return true;
 	}
-	function getWaterPurity() {return this.purity;}
-	function getKind() {return this.kind;}
+	getWaterPurity() {return this.purity;}
+	getKind() {return this.kind;}
 }
