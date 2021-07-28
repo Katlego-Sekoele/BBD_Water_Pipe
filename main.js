@@ -23,6 +23,8 @@ var game = new Phaser.Game(config);
 function preload ()
 {
     this.load.image('board', 'assets/grid.png');
+    this.load.image('run', 'assets/run.png');
+    this.load.image('redo', 'assets/redo.png');
 
     this.load.image('SOURCE', 'assets/start.png');
     this.load.image('END', 'assets/end.png');
@@ -48,6 +50,16 @@ function create ()
     //grid background
     grid = create_grid(); // creates a 2D array of 16x16
     this.add.image(OFFSET, OFFSET+CELL_WIDTH, 'board').setOrigin(0,0); //set the origin of the image to the top-left and add the image to the scene
+
+    //run button
+    runBtn = this.add.image(743.75-CELL_WIDTH-10,OFFSET, 'run').setOrigin(0,0);
+    runBtn.setInteractive();
+    runBtn.setScale(0.08);
+
+    //redo button
+    redoBtn = this.add.image(743.75-CELL_WIDTH-10,OFFSET*2, 'redo').setOrigin(0,0);
+    redoBtn.setInteractive();
+    redoBtn.setScale(0.08);
     
     //create start and end point
     var start = this.add.sprite(2*CELL_WIDTH, 5*CELL_WIDTH, 'SOURCE');
@@ -110,17 +122,24 @@ function create ()
             grid[previous_y][previous_x] = null;
         } 
         
-        console.log(grid);
-        console.log(simulate(grid, {y: start_y, x: start_x}));
+        //console.log(grid);
         //console.log(kind);
         //console.log(angle);
         
     });
- 
+    
     this.input.on('gameobjectdown', function(pointer, gameObject){
         //rotates the pipe 90 degrees on click
         //FIX: the game rotates the object when the user drags, 
-        gameObject.angle += 90;
+        if (gameObject.texture.key != 'run' && gameObject.texture.key != 'redo'){
+            gameObject.angle += 90;
+        }else if (gameObject.texture.key === 'run'){
+            console.log(simulate(grid, {y: start_y, x: start_x}));
+        }else if (gameObject.texture.key === 'redo'){
+            //redo
+            //this.scene.restart();
+        }
+        
         //var x = (gameObject.x/CELL_WIDTH)-1;
         //var y = (gameObject.y/CELL_WIDTH)-1;
         //var kind = getKind(gameObject);
@@ -129,14 +148,7 @@ function create ()
         //console.log(grid);
     });
 
-    //"run" button
-    var button = this.add.text(743.75-CELL_WIDTH,OFFSET, 'RUN!', {fil: '0B3'}).setOrigin(0,0);
-    button.on('pointerdown', function(pointer) {
-        button.setScale(1.1);
-    });
-    button.on('pointerup', function (pointer) {
-        button.setScale(1);
-    });
+    
 	
 }
  
@@ -269,6 +281,9 @@ function getKind(gameObject) {
             break;
         case 'FUNCTIONCALL':
             return ObjectType.FUNCTIONCALL;
+            break;
+        case 'run':
+            return -1;
             break;
         default:
             //
