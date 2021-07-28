@@ -87,7 +87,7 @@ function create ()
             //returns the pipe to its previous position
             gameObject.x = previous_position[0];
             gameObject.y = previous_position[1];
-            console.log(previous_x, previous_y);
+            //console.log(previous_x, previous_y);
             grid[previous_x][previous_y] = true;
         }else{
             //sets the new grid position as true (i.e. occupied)
@@ -104,6 +104,12 @@ function create ()
         //rotates the pipe 90 degrees on click
         //FIX: the game rotates the object when the user drags, 
         gameObject.angle += 90;
+        //var x = (gameObject.x/CELL_WIDTH)-1;
+        //var y = (gameObject.y/CELL_WIDTH)-1;
+        //var kind = getKind(gameObject);
+        //var direction = getDirection(gameObject.angle);
+        //grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
+        //console.log(grid);
     });
 
     //"run" button
@@ -263,10 +269,10 @@ function getDirection(angle){
         case 90:
             return Direction.SOUTH;
         break;
-        case 180:
+        case -180:
             return Direction.WEST;
         break;
         default:
-            //
+            return -3
     }
 }

@@ -85,7 +85,7 @@ class GameEntity
 		return true;
 	}
 	
-	get inGrid(){return inGrid_;}
+	get inGrid(){return this.inGrid_;}
 	
 	// Passes the water to an object 
 	passWater(otherObject)
@@ -611,7 +611,7 @@ class GameEntity
 				break;
 
 			//Not yet implemented
-			case ObjectType.FUNCTIONBLOCK:
+			/*case ObjectType.FUNCTIONBLOCK:
 			{
 				if (faceDirection === Direction.NORTH)
 					return null;
@@ -621,10 +621,10 @@ class GameEntity
 					return null;
 				else if (faceDirection === Direction.EAST)
 					return null;
-			}
+			}*/
 				break;
 			//Not yet implemented
-			case ObejctType.FUNCTIONCALL:
+			/*case ObejctType.FUNCTIONCALL:
 			{
 				if (faceDirection === Direction.NORTH)
 					return null;
@@ -634,7 +634,7 @@ class GameEntity
 					return null;
 				else if (faceDirection === Direction.EAST)
 					return null;
-			}
+			}*/
 				break;
 			case ObjectType.END:
 			{
