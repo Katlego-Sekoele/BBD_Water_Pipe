@@ -1,16 +1,21 @@
 const ObjectType = {
+	SOURCE: 0,
 	REGULAR_PIPE: 1,
 }
 
 class gameEntity
 {
-	constructor(purity, kind)
+	constructor(kind, purity)
 	{
-		this.purityLevel = -1; // -1 means there is no water in the object
 		this.kind = kind;
+		this.purity = purity; 
 	}
 	
-	function hasWater() {return this.purity === -1;}
+	function hasWater() {
+		if (this.purity === 0)
+			return false;
+		return true;
+	}
 	function getWaterPurity() {return this.purity;}
 	function getKind() {return this.kind;}
 }
