@@ -558,6 +558,7 @@ class GameEntity
 				else if (faceDirection === Direction.WEST)
 					return null;
 				else if (faceDirection === Direction.EAST)
+					return null;
 			}
 				break;
 			case ObjectType.CHECKPIPE:
