@@ -94,10 +94,9 @@ function create ()
             grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
         } 
         
-        //console.log(grid);
+        console.log(grid);
         //console.log(kind);
         //console.log(angle);
-
         
     });
  

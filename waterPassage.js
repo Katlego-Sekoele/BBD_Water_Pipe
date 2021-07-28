@@ -75,7 +75,7 @@ class GameEntity
 		this.purity_ = purity;
 		this.faceDirection_  = faceDirection
 		this.position_ = position;
-		this.inGrid_ = getInGrid(kind, faceDirection);
+		this.inGrid_ = GameEntity.getInGrid(kind, faceDirection);
 	}
 	
 	// Checks if water in the object is clean
@@ -118,28 +118,28 @@ class GameEntity
 		{
 
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
 						direction: this.faceDirection_
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
@@ -156,28 +156,28 @@ class GameEntity
 		if (type === ObjectType.PIPE)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
 						direction: this.faceDirection_
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
@@ -192,28 +192,28 @@ class GameEntity
 		else if (type == ObjectType.BENDLEFT)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
 						direction: this.faceDirection_
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
@@ -227,28 +227,28 @@ class GameEntity
 		else if (type == ObjectType.BENDRIGHT)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
 						direction: this.faceDirection_
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
@@ -263,28 +263,28 @@ class GameEntity
 		{
 			if (hasCleanWater === true){
 				switch (this.faceDirection_){
-					case NORTH:
+					case Direction.NORTH:
 						return [{
 							y: faceDirection_[y],
 							x: faceDirection_[x]-1,
 							direction: this.faceDirection_
 						}]
 					break;
-					case EAST:
+					case Direction.EAST:
 						return [{
 							y: faceDirection_[y]+1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}] 
 					break;
-					case SOUTH:
+					case Direction.SOUTH:
 						return [{
 							y: faceDirection_[y],
 							x: faceDirection_[x]+1,
 							direction: this.faceDirection_
 						}]
 					break;
-					case WEST:
+					case Direction.WEST:
 						return [{
 							y: faceDirection_[y]-1,
 							x: faceDirection_[x],
@@ -296,28 +296,28 @@ class GameEntity
 				}
 			}else{
 				switch (this.faceDirection_){
-					case NORTH:
+					case Direction.NORTH:
 						return [{
 							y: faceDirection_[y],
 							x: faceDirection_[x]+1,
 							direction: this.faceDirection_
 						}]
 					break;
-					case EAST:
+					case Direction.EAST:
 						return [{
 							y: faceDirection_[y]-1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}] 
 					break;
-					case SOUTH:
+					case Direction.SOUTH:
 						return [{
 							y: faceDirection_[y],
 							x: faceDirection_[x]-1,
 							direction: this.faceDirection_
 						}]
 					break;
-					case WEST:
+					case Direction.WEST:
 						return [{
 							y: faceDirection_[y]+1,
 							x: faceDirection_[x],
@@ -333,52 +333,52 @@ class GameEntity
 		else if (type == ObjectType.DOUBLEDUAL)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
-						direction: WEST
+						direction: Direction.WEST
 					},
 					{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
-						direction: EAST
+						direction: Direction.EAST
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
-						direction: NORTH
+						direction: Direction.NORTH
 					},
 					{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
-						direction: SOUTH
+						direction: Direction.SOUTH
 					}]
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
-						direction: WEST
+						direction: Direction.WEST
 					},
 					{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
-						direction: EAST
+						direction: Direction.EAST
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
-						direction: NORTH
+						direction: Direction.NORTH
 					},
 					{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
-						direction: SOUTH
+						direction: Direction.SOUTH
 					}]
 				break;
 				default:
@@ -388,32 +388,32 @@ class GameEntity
 		else if (type == ObjectType.DOUBLELEFT)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
-						direction: WEST
+						direction: Direction.WEST
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
-						direction: NORTH
+						direction: Direction.NORTH
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
-						direction: EAST
+						direction: Direction.EAST
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
-						direction: SOUTH
+						direction: Direction.SOUTH
 					}]
 				break;
 				default:
@@ -423,32 +423,32 @@ class GameEntity
 		else if (type == ObjectType.DOUBLERIGHT)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
-						direction: EAST
+						direction: Direction.EAST
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
-						direction: SOUTH
+						direction: Direction.SOUTH
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
-						direction: WEST
+						direction: Direction.WEST
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
-						direction: NORTH
+						direction: Direction.NORTH
 					}]
 				break;
 				default:
@@ -458,28 +458,28 @@ class GameEntity
 		else if (type == ObjectType.PURIFIER)
 		{
 			switch (this.faceDirection_){
-				case NORTH:
+				case Direction.NORTH:
 					return [{
 						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case EAST:
+				case Direction.EAST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]+1,
 						direction: this.faceDirection_
 					}] 
 				break;
-				case SOUTH:
+				case Direction.SOUTH:
 					return [{
 						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
 						direction: this.faceDirection_
 					}]
 				break;
-				case WEST:
+				case Direction.WEST:
 					return [{
 						y: faceDirection_[y],
 						x: faceDirection_[x]-1,
@@ -516,97 +516,97 @@ class GameEntity
 			case ObjectType.PIPE:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 			case ObjectType.BENDLEFT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return EAST;
+					return Direction.EAST;
 				else if (faceDirection === Direction.SOUTH)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.WEST)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.EAST)
-					return SOUTH;
+					return Direction.SOUTH;
 			}
 				break;
 			case ObjectType.BENDRIGHT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.SOUTH)
-					return EAST;
+					return Direction.EAST;
 				else if (faceDirection === Direction.WEST)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.EAST)
-					return NORTH;
+					return Direction.NORTH;
 			}
 				break;
 			case ObjectType.CHECKPIPE:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 			case ObjectType.DOUBLEDUAL:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 			case ObjectType.DOUBLELEFT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 			case ObjectType.DOUBLERIGHT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 			case ObjectType.PURIFIER:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 
@@ -639,13 +639,13 @@ class GameEntity
 			case ObjectType.END:
 			{
 				if (faceDirection === Direction.NORTH)
-					return NORTH;
+					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return SOUTH;
+					return Direction.SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return WEST;
+					return Direction.WEST;
 				else if (faceDirection === Direction.EAST)
-					return EAST;
+					return Direction.EAST;
 			}
 				break;
 	}
