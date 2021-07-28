@@ -75,9 +75,9 @@ class GameEntity
 	passWater(otherObject)
 	{
 		if (this.type === ObjectType.PURIFIER)
-			otherObject.purity = purifyWater(object1.purity - 1);
+			otherObject.purity = purifyWater(purity_);
 		else
-			otherObject.purity = purity;
+			otherObject.purity = purity_;
 	}
 	
 	// Checks if a connection between this and another object is valid
