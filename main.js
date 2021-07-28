@@ -49,7 +49,11 @@ function create ()
     grid = create_grid(); // creates a 2D array of 16x16
     this.add.image(OFFSET, OFFSET+CELL_WIDTH, 'board').setOrigin(0,0); //set the origin of the image to the top-left and add the image to the scene
     
-    
+    //create start and end point
+    var start = this.add.sprite(2*CELL_WIDTH, 5*CELL_WIDTH, 'SOURCE');
+    start.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+    var end = this.add.sprite(7*CELL_WIDTH, 6*CELL_WIDTH, 'END');
+    end.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
 
     //TESTING SPRITE CREATION
     for (var i = 1; i < 9; i++){
