@@ -81,8 +81,8 @@ class GameEntity
 	// Checks if water in the object is clean
 	get hasCleanWater() {
 		if (this.purity_ === PurityLevel.CLEAN)
-			return false;
-		return true;
+			return true;
+		return false;
 	}
 	
 	get inGrid(){return this.inGrid_;}
@@ -102,7 +102,8 @@ class GameEntity
 	{
 		for (let out of this.outPos())
 		{
-			if (out.x === nextObject.position.x && out.y === nextObject.position.y && oppositeDirections(out.direction, nextObject.inGrid))
+			console.log("A position");
+			if (out.x === nextObject.position.x && out.y === nextObject.position.y && out.direction === nextObject.inGrid)
 			{
 				return true;
 			}
@@ -117,7 +118,6 @@ class GameEntity
 		//outpos for SOURCE
 		if (this.kind_ == ObjectType.SOURCE)
 		{
-			console.log("We are at the source outpos");
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
@@ -127,7 +127,6 @@ class GameEntity
 					}]
 				break;
 				case Direction.EAST:
-					console.log(this.position_, "LINE 130");
 					return [{
 						y: this.position_.y,
 						x: this.position_.x+1,
@@ -679,7 +678,7 @@ function simulate(grid, currPos)
 	const connectedPos = currObject.outPos();
 	
 	let result; 
-	for (const i = 0; i < connectedPos.length; i++)
+	for (let i = 0; i < connectedPos.length; i++)
 	{ console.log("looking for connections");
 		const nextPos = connectedPos[i];
 		const nextObject = grid[nextPos.y][nextPos.x];
