@@ -81,9 +81,9 @@ function create ()
         var x = (gameObject.x/CELL_WIDTH)-1;
         var y = (gameObject.y/CELL_WIDTH)-1;
         var kind = getKind(gameObject);
-        var angle = gameObject.angle;
+        var direction = getDirection(gameObject.angle);
         
-        if (grid[y][x] === true){
+        if (grid[y][x]){
             //returns the pipe to its previous position
             gameObject.x = previous_position[0];
             gameObject.y = previous_position[1];
@@ -91,7 +91,7 @@ function create ()
             grid[previous_x][previous_y] = true;
         }else{
             //sets the new grid position as true (i.e. occupied)
-            grid[y][x] = true;
+            grid[y][x] = new GameEntity(kind, 1, direction, {y, x});
         } 
         
         //console.log(grid);
@@ -248,6 +248,25 @@ function getKind(gameObject) {
         case 'FUNCTIONCALL':
             return ObjectType.FUNCTIONCALL;
             break;
+        default:
+            //
+    }
+}
+
+function getDirection(angle){
+    switch (angle){
+        case -90:
+            return Direction.NORTH;
+        break;
+        case 0:
+            return Direction.EAST;
+        break;
+        case 90:
+            return Direction.SOUTH;
+        break;
+        case 180:
+            return Direction.WEST;
+        break;
         default:
             //
     }

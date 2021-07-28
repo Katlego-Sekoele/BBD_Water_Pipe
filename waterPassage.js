@@ -89,42 +89,384 @@ class GameEntity
 	// Return the end points of an object 
 	outPos()
 	{
+		//outpos for SOURCE
 		if (type == ObjectType.SOURCE)
 		{
-			return[{}]
+
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: this.faceDirection_
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: this.faceDirection_
+					}]
+				break;
+				default:
+					//
+			}
+
+			//return[{}]
 		}
+		//outpos for PIPE
 		if (type === ObjectType.PIPE)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: this.faceDirection_
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: this.faceDirection_
+					}]
+				break;
+				default:
+					//
+			}
 		}
+		//TODO: CHECK IF BENDLEFT AND BENDRIGHT PRODUCE THE CORRECT OUTPOS
 		else if (type == ObjectType.BENDLEFT)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: this.faceDirection_
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: this.faceDirection_
+					}]
+				break;
+				default:
+					//
+			}
 		}
 		else if (type == ObjectType.BENDRIGHT)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: this.faceDirection_
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: this.faceDirection_
+					}]
+				break;
+				default:
+					//
+			}
 		}
 		else if (type == ObjectType.CHECKPIPE)
 		{
-			return [{}]
+			if (hasCleanWater === true){
+				switch (this.faceDirection_){
+					case NORTH:
+						return [{
+							y: faceDirection_[y],
+							x: faceDirection_[x]-1,
+							direction: this.faceDirection_
+						}]
+					break;
+					case EAST:
+						return [{
+							y: faceDirection_[y]+1,
+							x: faceDirection_[x],
+							direction: this.faceDirection_
+						}] 
+					break;
+					case SOUTH:
+						return [{
+							y: faceDirection_[y],
+							x: faceDirection_[x]+1,
+							direction: this.faceDirection_
+						}]
+					break;
+					case WEST:
+						return [{
+							y: faceDirection_[y]-1,
+							x: faceDirection_[x],
+							direction: this.faceDirection_
+						}]
+					break;
+					default:
+						//
+				}
+			}else{
+				switch (this.faceDirection_){
+					case NORTH:
+						return [{
+							y: faceDirection_[y],
+							x: faceDirection_[x]+1,
+							direction: this.faceDirection_
+						}]
+					break;
+					case EAST:
+						return [{
+							y: faceDirection_[y]-1,
+							x: faceDirection_[x],
+							direction: this.faceDirection_
+						}] 
+					break;
+					case SOUTH:
+						return [{
+							y: faceDirection_[y],
+							x: faceDirection_[x]-1,
+							direction: this.faceDirection_
+						}]
+					break;
+					case WEST:
+						return [{
+							y: faceDirection_[y]+1,
+							x: faceDirection_[x],
+							direction: this.faceDirection_
+						}]
+					break;
+					default:
+						//
+				}
+
+			}
 		}
 		else if (type == ObjectType.DOUBLEDUAL)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: WEST
+					},
+					{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: EAST
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: NORTH
+					},
+					{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: SOUTH
+					}]
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: WEST
+					},
+					{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: EAST
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: NORTH
+					},
+					{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: SOUTH
+					}]
+				break;
+				default:
+					//
+			}
 		}
 		else if (type == ObjectType.DOUBLELEFT)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: WEST
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: NORTH
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: EAST
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: SOUTH
+					}]
+				break;
+				default:
+					//
+			}
 		}
 		else if (type == ObjectType.DOUBLERIGHT)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: EAST
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: SOUTH
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: WEST
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: NORTH
+					}]
+				break;
+				default:
+					//
+			}
 		}
 		else if (type == ObjectType.PURIFIER)
 		{
-			return [{}]
+			switch (this.faceDirection_){
+				case NORTH:
+					return [{
+						y: faceDirection_[y]-1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case EAST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]+1,
+						direction: this.faceDirection_
+					}] 
+				break;
+				case SOUTH:
+					return [{
+						y: faceDirection_[y]+1,
+						x: faceDirection_[x],
+						direction: this.faceDirection_
+					}]
+				break;
+				case WEST:
+					return [{
+						y: faceDirection_[y],
+						x: faceDirection_[x]-1,
+						direction: this.faceDirection_
+					}]
+				break;
+				default:
+					//
+			}
 		}
+		//LATER
 		else if (type == ObjectType.FUNCTIONBLOCK)
 		{
 			return [{}]
