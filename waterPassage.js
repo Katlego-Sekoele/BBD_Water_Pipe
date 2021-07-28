@@ -57,11 +57,6 @@ class GameEntity
 		this.purity_ = purity;
 		this.faceDirection_  = faceDirection
 		this.position_ = position;
-		if ()
-		{
-		}
-		this.inGrid = 
-		this.outGrid = {{}}
 	}
 	
 	// Checks if water in the object is clean
