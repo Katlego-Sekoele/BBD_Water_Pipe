@@ -52,8 +52,19 @@ function create ()
     //create start and end point
     var start = this.add.sprite(2*CELL_WIDTH, 5*CELL_WIDTH, 'SOURCE');
     start.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+    const start_x = (start.x/CELL_WIDTH)-1;
+    const start_y = (start.y/CELL_WIDTH)-1;
+    var start_kind = getKind(start);
+    var start_direction = getDirection(start.angle);
+    grid[start_y][start_x] = new GameEntity(start_kind, PurityLevel.CLEAN, start_direction, {y: start_y, x: start_x});
+
     var end = this.add.sprite(7*CELL_WIDTH, 6*CELL_WIDTH, 'END');
     end.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+    const end_x = (end.x/CELL_WIDTH)-1;
+    const end_y = (end.y/CELL_WIDTH)-1;
+    var end_kind = getKind(end);
+    var end_direction = getDirection(end.angle);
+    grid[end_y][end_x] = new GameEntity(end_kind, PurityLevel.CLEAN, end_direction, {y: end_y, x: end_x});
 
     //TESTING SPRITE CREATION
     for (var i = 1; i < 9; i++){
@@ -92,13 +103,15 @@ function create ()
             gameObject.x = previous_position[0];
             gameObject.y = previous_position[1];
             //console.log(previous_x, previous_y);
-            grid[previous_x][previous_y] = true;
+            grid[previous_x][previous_y] = new GameEntity(kind, 1, direction, {y: y, x: x});
         }else{
             //sets the new grid position as true (i.e. occupied)
             grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
+            grid[previous_y][previous_x] = null;
         } 
         
         console.log(grid);
+        console.log(simulate(grid, {y: start_y, x: start_x}));
         //console.log(kind);
         //console.log(angle);
         

@@ -86,20 +86,21 @@ class GameEntity
 	}
 	
 	get inGrid(){return this.inGrid_;}
+	get kind(){return this.kind_;}
 	
 	// Passes the water to an object 
 	passWater(otherObject)
 	{
-		if (this.type === ObjectType.PURIFIER)
-			otherObject.purity = purifyWater(purity_);
+		if (this.kind_ === ObjectType.PURIFIER)
+			otherObject.purity = purifyWater(this.purity_);
 		else
-			otherObject.purity = purity_;
+			otherObject.purity = this.purity_;
 	}
 	
 	// Checks if there is a connection between this and another object, and it is valid
 	connectsTo(nextObject)
 	{
-		for (out of this.outPos)
+		for (let out of this.outPos())
 		{
 			if (out.x === nextObject.position.x && out.y === nextObject.position.y && oppositeDirections(out.direction, nextObject.inGrid))
 			{
@@ -114,35 +115,36 @@ class GameEntity
 	outPos()
 	{
 		//outpos for SOURCE
-		if (type == ObjectType.SOURCE)
+		if (this.kind_ == ObjectType.SOURCE)
 		{
-
+			console.log("We are at the source outpos");
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.EAST:
+					console.log(this.position_, "LINE 130");
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: this.faceDirection_
 					}] 
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: this.faceDirection_
 					}]
 				break;
@@ -153,34 +155,34 @@ class GameEntity
 			//return[{}]
 		}
 		//outpos for PIPE
-		if (type === ObjectType.PIPE)
+		if (this.kind_ === ObjectType.PIPE)
 		{
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.EAST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: this.faceDirection_
 					}] 
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: this.faceDirection_
 					}]
 				break;
@@ -189,34 +191,34 @@ class GameEntity
 			}
 		}
 		//TODO: CHECK IF BENDLEFT AND BENDRIGHT PRODUCE THE CORRECT OUTPOS
-		else if (type == ObjectType.BENDLEFT)
+		else if (this.kind_ == ObjectType.BENDLEFT)
 		{
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.EAST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: this.faceDirection_
 					}] 
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: this.faceDirection_
 					}]
 				break;
@@ -224,34 +226,34 @@ class GameEntity
 					//
 			}
 		}
-		else if (type == ObjectType.BENDRIGHT)
+		else if (this.kind_ == ObjectType.BENDRIGHT)
 		{
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.EAST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: this.faceDirection_
 					}] 
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: this.faceDirection_
 					}]
 				break;
@@ -259,35 +261,35 @@ class GameEntity
 					//
 			}
 		}
-		else if (type == ObjectType.CHECKPIPE)
+		else if (this.kind_ == ObjectType.CHECKPIPE)
 		{
-			if (hasCleanWater === true){
+			if (this.hasCleanWater === true){
 				switch (this.faceDirection_){
 					case Direction.NORTH:
 						return [{
-							y: faceDirection_[y],
-							x: faceDirection_[x]-1,
+							y: this.position_.y,
+							x: this.position_.x-1,
 							direction: this.faceDirection_
 						}]
 					break;
 					case Direction.EAST:
 						return [{
-							y: faceDirection_[y]+1,
-							x: faceDirection_[x],
+							y: this.position_.y+1,
+							x: this.position_.x,
 							direction: this.faceDirection_
 						}] 
 					break;
 					case Direction.SOUTH:
 						return [{
-							y: faceDirection_[y],
-							x: faceDirection_[x]+1,
+							y: this.position_.y,
+							x: this.position_.x+1,
 							direction: this.faceDirection_
 						}]
 					break;
 					case Direction.WEST:
 						return [{
-							y: faceDirection_[y]-1,
-							x: faceDirection_[x],
+							y: this.position_.y-1,
+							x: this.position_.x,
 							direction: this.faceDirection_
 						}]
 					break;
@@ -298,29 +300,29 @@ class GameEntity
 				switch (this.faceDirection_){
 					case Direction.NORTH:
 						return [{
-							y: faceDirection_[y],
-							x: faceDirection_[x]+1,
+							y: this.position_.y,
+							x: this.position_.x+1,
 							direction: this.faceDirection_
 						}]
 					break;
 					case Direction.EAST:
 						return [{
-							y: faceDirection_[y]-1,
-							x: faceDirection_[x],
+							y: this.position_.y-1,
+							x: this.position_.x,
 							direction: this.faceDirection_
 						}] 
 					break;
 					case Direction.SOUTH:
 						return [{
-							y: faceDirection_[y],
-							x: faceDirection_[x]-1,
+							y: this.position_.y,
+							x: this.position_.x-1,
 							direction: this.faceDirection_
 						}]
 					break;
 					case Direction.WEST:
 						return [{
-							y: faceDirection_[y]+1,
-							x: faceDirection_[x],
+							y: this.position_.y+1,
+							x: this.position_.x,
 							direction: this.faceDirection_
 						}]
 					break;
@@ -330,89 +332,54 @@ class GameEntity
 
 			}
 		}
-		else if (type == ObjectType.DOUBLEDUAL)
+		else if (this.kind_ == ObjectType.DOUBLEDUAL)
 		{
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: Direction.WEST
 					},
 					{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: Direction.EAST
 					}]
 				break;
 				case Direction.EAST:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: Direction.NORTH
 					},
 					{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: Direction.SOUTH
 					}]
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: Direction.WEST
 					},
 					{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: Direction.EAST
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: Direction.NORTH
 					},
 					{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
-						direction: Direction.SOUTH
-					}]
-				break;
-				default:
-					//
-			}
-		}
-		else if (type == ObjectType.DOUBLELEFT)
-		{
-			switch (this.faceDirection_){
-				case Direction.NORTH:
-					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
-						direction: Direction.WEST
-					}]
-				break;
-				case Direction.EAST:
-					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
-						direction: Direction.NORTH
-					}] 
-				break;
-				case Direction.SOUTH:
-					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
-						direction: Direction.EAST
-					}]
-				break;
-				case Direction.WEST:
-					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: Direction.SOUTH
 					}]
 				break;
@@ -420,34 +387,69 @@ class GameEntity
 					//
 			}
 		}
-		else if (type == ObjectType.DOUBLERIGHT)
+		else if (this.kind_ == ObjectType.DOUBLELEFT)
 		{
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x-1,
+						direction: Direction.WEST
+					}]
+				break;
+				case Direction.EAST:
+					return [{
+						y: this.position_.y+1,
+						x: this.position_.x,
+						direction: Direction.NORTH
+					}] 
+				break;
+				case Direction.SOUTH:
+					return [{
+						y: this.position_.y,
+						x: this.position_.x+1,
+						direction: Direction.EAST
+					}]
+				break;
+				case Direction.WEST:
+					return [{
+						y: this.position_.y+1,
+						x: this.position_.x,
+						direction: Direction.SOUTH
+					}]
+				break;
+				default:
+					//
+			}
+		}
+		else if (this.kind_ == ObjectType.DOUBLERIGHT)
+		{
+			switch (this.faceDirection_){
+				case Direction.NORTH:
+					return [{
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: Direction.EAST
 					}]
 				break;
 				case Direction.EAST:
 					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: Direction.SOUTH
 					}] 
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: Direction.WEST
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: Direction.NORTH
 					}]
 				break;
@@ -455,34 +457,34 @@ class GameEntity
 					//
 			}
 		}
-		else if (type == ObjectType.PURIFIER)
+		else if (this.kind_ == ObjectType.PURIFIER)
 		{
 			switch (this.faceDirection_){
 				case Direction.NORTH:
 					return [{
-						y: faceDirection_[y]-1,
-						x: faceDirection_[x],
+						y: this.position_.y-1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.EAST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]+1,
+						y: this.position_.y,
+						x: this.position_.x+1,
 						direction: this.faceDirection_
 					}] 
 				break;
 				case Direction.SOUTH:
 					return [{
-						y: faceDirection_[y]+1,
-						x: faceDirection_[x],
+						y: this.position_.y+1,
+						x: this.position_.x,
 						direction: this.faceDirection_
 					}]
 				break;
 				case Direction.WEST:
 					return [{
-						y: faceDirection_[y],
-						x: faceDirection_[x]-1,
+						y: this.position_.y,
+						x: this.position_.x-1,
 						direction: this.faceDirection_
 					}]
 				break;
@@ -491,20 +493,23 @@ class GameEntity
 			}
 		}
 		//LATER
-		else if (type == ObjectType.FUNCTIONBLOCK)
+		else if (this.kind_ == ObjectType.FUNCTIONBLOCK)
 		{
 			return [{}]
 		}
-		else if (type == ObjectType.FUNCTIONCALL)
+		else if (this.kind_ == ObjectType.FUNCTIONCALL)
 		{
 			return [{}]
 		}
-		else if (type == ObjectType.FUNCTIONCALL)
+		else if (this.kind_ == ObjectType.FUNCTIONCALL)
 		{
 			return [{}]
 		}
-		else 
+		else {
+			console.log("Unrecognised type")
 			return [];
+		}
+			
 		
 	}
 	
@@ -656,13 +661,14 @@ class GameEntity
 
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
 function simulate(grid, currPos)
-{	
+{	console.log("Function runs", currPos);
 	currObject = grid[currPos.y][currPos.x];
-	
+	console.log("CURRENT OBJECT IS ",currObject);
 	// Checking if we have reached the destination
 	// If it is the end, we return true if the water if clean and false otherwise
-	if (currObject.type === ObjectType.END)
+	if (currObject.kind === ObjectType.END)
 	{
+		console.log("line 671 runs");
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
 		else
@@ -670,13 +676,13 @@ function simulate(grid, currPos)
 	}
 	
 	// Otherwise if it is not the end we try move to the next position(s) connected to by the current object
-	const connectedPos = outPos(currObject, currPos);
+	const connectedPos = currObject.outPos();
 	
 	let result; 
 	for (const i = 0; i < connectedPos.length; i++)
-	{
+	{ console.log("looking for connections");
 		const nextPos = connectedPos[i];
-		const nextObect = grid[nextPos.y][nextPos.x];
+		const nextObject = grid[nextPos.y][nextPos.x];
 		
 		// If the other end connects to nothing it is a loss
 		if (nextObject === null)
@@ -687,7 +693,7 @@ function simulate(grid, currPos)
 			return {outcome:false, message:"Blocked water passsage."}
 		
 		// Pass water to the next object 
-		currObject.passWater(nextObect);
+		currObject.passWater(nextObject);
 		
 		result = simulate(grid, nextPos);
 		
