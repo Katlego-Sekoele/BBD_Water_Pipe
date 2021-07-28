@@ -1,8 +1,17 @@
 // The object kinds 
 const ObjectType = {
 	SOURCE: 0,
-	REGULAR_PIPE: 1,
-	END: 2
+	PIPE: 1,
+	BENDLEFT: 2,
+	BENDRIGHT: 3,
+	CHECKPIPE: 4,
+	DOUBLEDUAL: 5,
+	DOUBLELEFT: 6,
+	DOUBLERIGHT: 7,
+	PURIFIER: 8,
+	FUNCTIONBLOCK: 9,
+	FUNCTIONCALL: 10,
+	END: 11
 }
 
 // Directions

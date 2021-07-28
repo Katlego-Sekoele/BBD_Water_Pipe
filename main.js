@@ -35,7 +35,8 @@ function preload ()
     this.load.image('double_pipe_left', 'assets/doublepipe_left.png');
     this.load.image('double_pipe_right', 'assets/doublepipe_right.png');
     this.load.image('purifier', 'assets/purify.png');
-    
+    this.load.image('function_block', 'assets/function.png');
+    this.load.image('function_call', 'assets/functioncall.png');
 
 }
  
@@ -45,8 +46,11 @@ function create ()
     grid = create_grid(); // creates a 2D array of 16x16
     this.add.image(OFFSET, OFFSET+CELL_WIDTH, 'board').setOrigin(0,0); //set the origin of the image to the top-left and add the image to the scene
 
-    create_sprites(this, 10, ObjectType.REGULAR_PIPE);// creates 
- 
+    //TESTING SPRITE CREATION
+    for (var i = 1; i < 9; i++){
+        create_sprites(this, 10, i);// creates 
+    }
+
     var previous_position; // previous position in pixels
     var previous_x; // previous x position in the 2D array
     var previous_y; // previous y position in the 2D array
@@ -125,12 +129,67 @@ function create_grid(){
 
 function create_sprites(context, number, type) {
     //generates sprites givent the number of sprites needed and the type of sprite needed
-    if (type === ObjectType.REGULAR_PIPE){
-        for (var i = 0; i < number; i++){
-            var pipe = context.add.sprite(CELL_WIDTH, CELL_WIDTH, 'pipe').setInteractive();
-            pipe.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
-            context.input.setDraggable(pipe);
-        }
+
+    switch(type) {
+        case ObjectType.PIPE:
+            for (var i = 0; i < number; i++){
+                var pipe = context.add.sprite(CELL_WIDTH*ObjectType.PIPE, CELL_WIDTH, 'pipe').setInteractive();
+                pipe.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(pipe);
+            }
+            break;
+        case ObjectType.BENDLEFT:
+            for (var i = 0; i < number; i++){
+                var bend_left = context.add.sprite(CELL_WIDTH*3, CELL_WIDTH, 'bend_left').setInteractive();
+                bend_left.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(bend_left);
+            }
+            break;
+        case ObjectType.BENDRIGHT:
+            for (var i = 0; i < number; i++){
+                var bend_right = context.add.sprite(CELL_WIDTH*5, CELL_WIDTH, 'bend_right').setInteractive();
+                bend_right.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(bend_right);
+            }
+            break;
+        case ObjectType.CHECKPIPE:
+            for (var i = 0; i < number; i++){
+                var check_pipe = context.add.sprite(CELL_WIDTH*7, CELL_WIDTH, 'check_pipe').setInteractive();
+                check_pipe.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(check_pipe);
+            }
+            break;
+        case ObjectType.DOUBLEDUAL:
+            for (var i = 0; i < number; i++){
+                var double_pipe_dual = context.add.sprite(CELL_WIDTH*9, CELL_WIDTH, 'double_pipe_dual').setInteractive();
+                double_pipe_dual.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(double_pipe_dual);
+            }
+            break;
+        case ObjectType.DOUBLELEFT:
+            for (var i = 0; i < number; i++){
+                var double_pipe_left = context.add.sprite(CELL_WIDTH*11, CELL_WIDTH, 'double_pipe_left').setInteractive();
+                double_pipe_left.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(double_pipe_left);
+            }
+            break;
+        case ObjectType.DOUBLERIGHT:
+            for (var i = 0; i < number; i++){
+                var double_pipe_right = context.add.sprite(CELL_WIDTH*13, CELL_WIDTH, 'double_pipe_right').setInteractive();
+                double_pipe_right.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(double_pipe_right);
+            }
+            break;
+        case ObjectType.PURIFIER:
+            for (var i = 0; i < number; i++){
+                var purifier = context.add.sprite(CELL_WIDTH*15, CELL_WIDTH, 'purifier').setInteractive();
+                purifier.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+                context.input.setDraggable(purifier);
+            }
+            break;
+        //MISSING: functionblock and functioncal
+        default:
+          // code block
     }
     
 }
