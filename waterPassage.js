@@ -75,9 +75,9 @@ class GameEntity
 	passWater(otherObject)
 	{
 		if (this.type === ObjectType.PURIFIER)
-			otherObject.purity = purifyWater(purity_);
+			otherObject.purity = purifyWater(object1.purity - 1);
 		else
-			otherObject.purity = purity_;
+			otherObject.purity = purity;
 	}
 	
 	// Checks if a connection between this and another object is valid
@@ -89,7 +89,6 @@ class GameEntity
 	// Return the end points of an object 
 	outPos()
 	{
-		//outpos for SOURCE
 		if (type == ObjectType.SOURCE)
 		{
 
@@ -128,7 +127,6 @@ class GameEntity
 
 			//return[{}]
 		}
-		//outpos for PIPE
 		if (type === ObjectType.PIPE)
 		{
 			switch (this.faceDirection_){
@@ -248,7 +246,7 @@ class GameEntity
 					break;
 					case EAST:
 						return [{
-							y: faceDirection_[y]+1,
+							y: faceDirection_[y]-1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}] 
@@ -262,7 +260,7 @@ class GameEntity
 					break;
 					case WEST:
 						return [{
-							y: faceDirection_[y]-1,
+							y: faceDirection_[y]+1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}]
@@ -281,7 +279,7 @@ class GameEntity
 					break;
 					case EAST:
 						return [{
-							y: faceDirection_[y]-1,
+							y: faceDirection_[y]+1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}] 
@@ -295,7 +293,7 @@ class GameEntity
 					break;
 					case WEST:
 						return [{
-							y: faceDirection_[y]+1,
+							y: faceDirection_[y]-1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}]
@@ -373,7 +371,7 @@ class GameEntity
 				break;
 				case EAST:
 					return [{
-						y: faceDirection_[y]+1,
+						y: faceDirection_[y]-1,
 						x: faceDirection_[x],
 						direction: NORTH
 					}] 
