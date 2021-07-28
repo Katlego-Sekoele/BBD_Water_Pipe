@@ -91,7 +91,7 @@ function create ()
             grid[previous_x][previous_y] = true;
         }else{
             //sets the new grid position as true (i.e. occupied)
-            grid[y][x] = new GameEntity(kind, 1, direction, {y, x});
+            grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
         } 
         
         //console.log(grid);
