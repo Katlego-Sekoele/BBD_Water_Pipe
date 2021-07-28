@@ -649,8 +649,9 @@ class GameEntity
 			}
 				break;
 	}
+}
 		
-	get position { return this.position_;}
+	get position () { return this.position_;}
 }
 
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
