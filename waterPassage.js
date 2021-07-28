@@ -658,9 +658,7 @@ class GameEntity
 			}
 				break;
 	}
-	
-	set purityLevel(purity) {this.purity_ = purity;}
-	get purityLevel() {return this.purity_;}
+		
 	get position { return this.position_;}
 }
 
