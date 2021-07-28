@@ -513,113 +513,104 @@ class GameEntity
 	{
 		switch (type)
 		{
-			case ObjectType.SOURCE:
-			{
-				if (faceDirection === Direction.NORTH)
-					return null;
-				else if (faceDirection === Direction.SOUTH)
-					return null;
-				else if (faceDirection === Direction.WEST)
-					return null;
-				else if (faceDirection === Direction.EAST)
-					return null;
-			}
-				break;
 			case ObjectType.PIPE:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
 			case ObjectType.BENDLEFT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return EAST;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return SOUTH;
 			}
 				break;
 			case ObjectType.BENDRIGHT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return EAST;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.EAST)
+					return NORTH;
 			}
 				break;
 			case ObjectType.CHECKPIPE:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
 			case ObjectType.DOUBLEDUAL:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
 			case ObjectType.DOUBLELEFT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
 			case ObjectType.DOUBLERIGHT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
 			case ObjectType.PURIFIER:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
+
+			//Not yet implemented
 			case ObjectType.FUNCTIONBLOCK:
 			{
 				if (faceDirection === Direction.NORTH)
@@ -632,6 +623,7 @@ class GameEntity
 					return null;
 			}
 				break;
+			//Not yet implemented
 			case ObejctType.FUNCTIONCALL:
 			{
 				if (faceDirection === Direction.NORTH)
@@ -644,16 +636,16 @@ class GameEntity
 					return null;
 			}
 				break;
-			case ObjectType.END
+			case ObjectType.END:
 			{
 				if (faceDirection === Direction.NORTH)
-					return null;
+					return NORTH;
 				else if (faceDirection === Direction.SOUTH)
-					return null;
+					return SOUTH;
 				else if (faceDirection === Direction.WEST)
-					return null;
+					return WEST;
 				else if (faceDirection === Direction.EAST)
-					return null;
+					return EAST;
 			}
 				break;
 	}
