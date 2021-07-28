@@ -22,6 +22,24 @@ const Direction = {
 	WEST: 4
 }
 
+// Checks if two directions are opposite
+function oppositeDirections(direction1, direction2)
+{
+	switch (direction1)
+	{
+		case Direction.NORTH:
+			return Direction.SOUTH === direction2;
+		case Direction.SOUTH:
+			return Direction.NORTH === direction2;
+		case Direction.EAST:
+			return Direction.WEST === direction2;
+		case Direction.WEST:
+			return Direction.EAST === direction2;
+		default:
+			return true;
+	}
+}
+
 // Water purity level
 const PurityLevel = {
 	CLEAN: 0,
@@ -57,6 +75,7 @@ class GameEntity
 		this.purity_ = purity;
 		this.faceDirection_  = faceDirection
 		this.position_ = position;
+		this.inGrid_ = getInGrid(kind, faceDirection);
 	}
 	
 	// Checks if water in the object is clean
@@ -66,24 +85,35 @@ class GameEntity
 		return true;
 	}
 	
+	get inGrid(){return inGrid_;}
+	
 	// Passes the water to an object 
 	passWater(otherObject)
 	{
 		if (this.type === ObjectType.PURIFIER)
-			otherObject.purity = purifyWater(object1.purity - 1);
+			otherObject.purity = purifyWater(purity_);
 		else
-			otherObject.purity = purity;
+			otherObject.purity = purity_;
 	}
 	
-	// Checks if a connection between this and another object is valid
+	// Checks if there is a connection between this and another object, and it is valid
 	connectsTo(nextObject)
 	{
-		this.outPos();
+		for (out of this.outPos)
+		{
+			if (out.x === nextObject.position.x && out.y === nextObject.position.y && oppositeDirections(out.direction, nextObject.inGrid))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
-	// Return the end points of an object 
+	// Return the out-end points of an object 
 	outPos()
 	{
+		//outpos for SOURCE
 		if (type == ObjectType.SOURCE)
 		{
 
@@ -122,6 +152,7 @@ class GameEntity
 
 			//return[{}]
 		}
+		//outpos for PIPE
 		if (type === ObjectType.PIPE)
 		{
 			switch (this.faceDirection_){
@@ -241,7 +272,7 @@ class GameEntity
 					break;
 					case EAST:
 						return [{
-							y: faceDirection_[y]-1,
+							y: faceDirection_[y]+1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}] 
@@ -255,7 +286,7 @@ class GameEntity
 					break;
 					case WEST:
 						return [{
-							y: faceDirection_[y]+1,
+							y: faceDirection_[y]-1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}]
@@ -274,7 +305,7 @@ class GameEntity
 					break;
 					case EAST:
 						return [{
-							y: faceDirection_[y]+1,
+							y: faceDirection_[y]-1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}] 
@@ -288,7 +319,7 @@ class GameEntity
 					break;
 					case WEST:
 						return [{
-							y: faceDirection_[y]-1,
+							y: faceDirection_[y]+1,
 							x: faceDirection_[x],
 							direction: this.faceDirection_
 						}]
@@ -366,7 +397,7 @@ class GameEntity
 				break;
 				case EAST:
 					return [{
-						y: faceDirection_[y]-1,
+						y: faceDirection_[y]+1,
 						x: faceDirection_[x],
 						direction: NORTH
 					}] 
@@ -477,8 +508,159 @@ class GameEntity
 		
 	}
 	
-	set purityLevel(purity) {this.purity_ = purity}
+	// Decides the direction in which the water will flow into an object
+	static getInGrid(type, faceDirection)
+	{
+		switch (type)
+		{
+			case ObjectType.SOURCE:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.PIPE:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.BENDLEFT:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.BENDRIGHT:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+			}
+				break;
+			case ObjectType.CHECKPIPE:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.DOUBLEDUAL:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.DOUBLELEFT:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.DOUBLERIGHT:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.PURIFIER:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.FUNCTIONBLOCK:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObejctType.FUNCTIONCALL:
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+			case ObjectType.END
+			{
+				if (faceDirection === Direction.NORTH)
+					return null;
+				else if (faceDirection === Direction.SOUTH)
+					return null;
+				else if (faceDirection === Direction.WEST)
+					return null;
+				else if (faceDirection === Direction.EAST)
+					return null;
+			}
+				break;
+	}
+	
+	set purityLevel(purity) {this.purity_ = purity;}
 	get purityLevel() {return this.purity_;}
+	get position { return this.position_;}
 }
 
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
