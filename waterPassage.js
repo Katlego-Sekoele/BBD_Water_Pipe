@@ -15,8 +15,7 @@ const ObjectType = {
 }
 
 // Directions
-const Direction
-{
+const Direction = {
 	SOUTH: 1,
 	NORTH: 2,
 	EAST: 3,
@@ -31,20 +30,46 @@ const PurityLevel = {
 	LOW_POLLUTED: 3
 }
 
+// Purifies the water
+function purifyWater(level)
+{
+	switch (level)
+	{
+		case PurityLevel.CLEAN:
+			return PurityLevel.CLEAN;
+		case PurityLevel.LOW_POLLUTED:
+			return PurityLevel.CLEAN;
+		case PurityLevel.MEDIUM_POLLUTED:
+			return PurityLevel.LOW_POLLUTED;
+		case PurityLevel.HIGH_POLLUTED:
+			return PurityLevel.MEDIUM_POLLUTED;
+		default:
+			return level;
+	} 
+}
+
 // For game objects  
 class GameEntity
 {
-	constructor(kind, purity)
+	constructor(kind, purity, faceDirection)
 	{
 		this.kind_ = kind;
 		this.purity_ = purity;
-		this.faceDirection_ = 
+		this.faceDirection_  = faceDirection= 
 	}
 	
 	get hasCleanWater() {
-		if (this.purity_ === 0)
+		if (this.purity_ === PurityLevel.CLEAN)
 			return false;
 		return true;
+	}
+	
+	function passWater(otherObject)
+	{
+		if (this.type === ObjectType.PURIFIER)
+			otherObject.purity = purifyWater(object1.purity - 1);
+		else
+			otherObject.purity = purity;
 	}
 	
 	set purityLevel(purity) {this.purity_ = purity}
@@ -52,7 +77,7 @@ class GameEntity
 	get kind {return this.kind_;}
 }
 
-
+// Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
 function simulate(grid, currPos)
 {	
 	currObject = grid[currPos.row][currPos.col];
@@ -65,17 +90,31 @@ function simulate(grid, currPos)
 			return {outcome:true, message:"Clean water is supplied."}
 	}
 	
-	// Otherwise if it is not the end we move to the next position connected to by the current object
-	connectedPos = outPos(currObject);
+	// Otherwise if it is not the end we try move to the next position(s) connected to by the current object
+	const connectedPos = outPos(currObject);
 	
-	// If the other end connects to nothing it's loss
-	nextObect = grid[pos.row][pos.col];
-	if (nextObject === null)
-		result1 = {outcome:false, "Open line. Water is wasted."};
+	let result; 
+	for (int i = 0; i < connectedPos.length; i++)
+	{
+		const nextPos = connectedPos[i];
+		const nextObect = grid[nextPos.row][nextPos.col];
 		
-	// If the end do not connect right to the next object is a loss 
-	if(!compatible(currObject, nextObject) )
-		result2 = {outcome:false, "Blocked water passsage."}
+		// If the other end connects to nothing it is a loss
+		if (nextObject === null)
+			return {outcome:false, "Open line. Water is wasted."};
+			
+		// If an end cannot successfully connect with next object it is a loss 
+		if(!validConnection(currObject, currPos, nextObject, nextPos))
+			return {outcome:false, "Blocked water passsage."}
+		
+		result = simulate(grid, pos);
+		if (!result.outcome)
+			return result;
+	}
 	
-	if (connectedPos.)
+	return result;
+}
+
+function validConnection()
+{
 }
