@@ -55,16 +55,19 @@ class GameEntity
 	{
 		this.kind_ = kind;
 		this.purity_ = purity;
-		this.faceDirection_  = faceDirection= 
+		this.faceDirection_  = faceDirection
+		this.position_ = position;
 	}
 	
+	// Checks if water in the object is clean
 	get hasCleanWater() {
 		if (this.purity_ === PurityLevel.CLEAN)
 			return false;
 		return true;
 	}
 	
-	function passWater(otherObject)
+	// Passes the water to an object 
+	passWater(otherObject)
 	{
 		if (this.type === ObjectType.PURIFIER)
 			otherObject.purity = purifyWater(object1.purity - 1);
@@ -72,9 +75,40 @@ class GameEntity
 			otherObject.purity = purity;
 	}
 	
+	// Checks if a connection between this and another object is valid
+	connectsTo(nextObject)
+	{
+		
+	}
+	
+	// Return the end points of an object 
+	outPos()
+	{
+		if (type == ObjectType.SOURCE)
+		{
+			
+		}
+		if (type === ObjectType.PIPE)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.BENDLEFT)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.CHECKPIPE)
+		{
+			
+		}
+		else if (type == ObjectType.BENDLEFT)
+		{
+			
+		}
+		else if (type == ObjectType.
+	}
+	
 	set purityLevel(purity) {this.purity_ = purity}
 	get purityLevel() {return this.purity_;}
-	get kind {return this.kind_;}
 }
 
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
@@ -88,10 +122,12 @@ function simulate(grid, currPos)
 	{
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
+		else
+			return {outcome:false, message:"Dirty water is supplied."}
 	}
 	
 	// Otherwise if it is not the end we try move to the next position(s) connected to by the current object
-	const connectedPos = outPos(currObject);
+	const connectedPos = outPos(currObject, currPos);
 	
 	let result; 
 	for (int i = 0; i < connectedPos.length; i++)
@@ -104,17 +140,17 @@ function simulate(grid, currPos)
 			return {outcome:false, "Open line. Water is wasted."};
 			
 		// If an end cannot successfully connect with next object it is a loss 
-		if(!validConnection(currObject, currPos, nextObject, nextPos))
+		if(!currObject.connectsTo(nextObject))
 			return {outcome:false, "Blocked water passsage."}
 		
-		result = simulate(grid, pos);
+		// Pass water to the next object 
+		currObject.passWater(nextObect);
+		
+		result = simulate(grid, nextPos);
+		
 		if (!result.outcome)
 			return result;
 	}
 	
 	return result;
-}
-
-function validConnection()
-{
 }
