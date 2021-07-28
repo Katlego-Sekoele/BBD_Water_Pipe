@@ -51,7 +51,7 @@ function purifyWater(level)
 // For game objects  
 class GameEntity
 {
-	constructor(kind, purity, faceDirection)
+	constructor(kind, purity, faceDirection, position)
 	{
 		this.kind_ = kind;
 		this.purity_ = purity;
