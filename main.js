@@ -68,7 +68,7 @@ function create ()
     const start_y = (start.y/CELL_WIDTH)-1;
     var start_kind = getKind(start);
     var start_direction = getDirection(start.angle);
-    grid[start_y][start_x] = new GameEntity(start_kind, PurityLevel.CLEAN, start_direction, {y: start_y, x: start_x});
+    grid[start_y][start_x] = new GameEntity(start_kind, PurityLevel.MEDIUM_POLLUTED, start_direction, {y: start_y, x: start_x});
 
     var end = this.add.sprite(7*CELL_WIDTH, 6*CELL_WIDTH, 'END');
     end.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
@@ -86,16 +86,20 @@ function create ()
     var previous_position; // previous position of game object in pixels
     var previous_x; // previous x position of game object in the 2D array
     var previous_y; // previous y position of game object in the 2D array
+    var drag_triggered = false;
     
     this.input.on('dragstart', function (pointer, gameObject, dropZone){
+        console.log("DRAG STARTED")
+        drag_triggered = true;
         //sets the starting grid block to null
         //save the previous position in case the user drags the object to an occupied grid cell
         previous_position = [gameObject.x, gameObject.y];
         previous_x = (gameObject.x/CELL_WIDTH)-1;
         previous_y = (gameObject.y/CELL_WIDTH)-1;
-        if (previous_y != 0){
+        gameObject.angle += 90;
+        //if (previous_y != 0){
             grid[previous_y][previous_x] = null;
-        }
+        //}
         
     });
     
@@ -105,12 +109,14 @@ function create ()
     });
  
     this.input.on('dragend', function(pointer, gameObject, dropZone) {
-        var x = (gameObject.x/CELL_WIDTH)-1;
-        var y = (gameObject.y/CELL_WIDTH)-1;
-        var kind = getKind(gameObject);
-        var direction = getDirection(gameObject.angle);
+        console.log("DRAG END");
+        drag_triggered = false;
+        let x = (gameObject.x/CELL_WIDTH)-1;
+        let y = (gameObject.y/CELL_WIDTH)-1;
+        let kind = getKind(gameObject);
+        let direction = getDirection(gameObject.angle);
         
-        if (grid[y][x]){
+        if (grid[y][x] != null){
             //returns the pipe to its previous position
             gameObject.x = previous_position[0];
             gameObject.y = previous_position[1];
@@ -119,8 +125,12 @@ function create ()
         }else{
             //sets the new grid position as true (i.e. occupied)
             grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
-            grid[previous_y][previous_x] = null;
+
+            console.log("Dragend replace grid cell");
+            //grid[previous_y][previous_x] = null;
         } 
+
+        console.log(grid);
         
         //console.log(grid);
         //console.log(kind);
@@ -131,21 +141,25 @@ function create ()
     this.input.on('gameobjectdown', function(pointer, gameObject){
         //rotates the pipe 90 degrees on click
         //FIX: the game rotates the object when the user drags, 
+
         if (gameObject.texture.key != 'run' && gameObject.texture.key != 'redo'){
-            gameObject.angle += 90;
+            // gameObject.angle += 90;
+            // let x = (gameObject.x/CELL_WIDTH)-1;
+            // let y = (gameObject.y/CELL_WIDTH)-1;
+            // let kind = getKind(gameObject);
+            // let direction = getDirection(gameObject.angle);
+            // grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
+            // console.log("Creating game entity");
         }else if (gameObject.texture.key === 'run'){
-            console.log(simulate(grid, {y: start_y, x: start_x}));
+            let result = simulate(grid, {y: start_y, x: start_x});
+            alert(result.message);
+            console.log(grid);
         }else if (gameObject.texture.key === 'redo'){
             //redo
             //this.scene.restart();
         }
         
-        //var x = (gameObject.x/CELL_WIDTH)-1;
-        //var y = (gameObject.y/CELL_WIDTH)-1;
-        //var kind = getKind(gameObject);
-        //var direction = getDirection(gameObject.angle);
-        //grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
-        //console.log(grid);
+         
     });
 
     
@@ -267,11 +281,23 @@ function getKind(gameObject) {
         case 'PIPE':
             return ObjectType.PIPE;
             break;
+        case 'CHECKPIPE':
+            return ObjectType.CHECKPIPE
+            break;
         case 'BENDLEFT':
             return ObjectType.BENDLEFT;
             break;
         case 'BENDRIGHT':
             return ObjectType.BENDRIGHT;
+            break;
+        case 'DOUBLEDUAL':
+            return ObjectType.DOUBLEDUAL;
+            break;
+        case 'DOUBLELEFT':
+            return ObjectType.DOUBLELEFT;
+            break;
+        case 'DOUBLERIGHT':
+            return ObjectType.DOUBLERIGHT;
             break;
         case 'PURIFIER':
             return ObjectType.PURIFIER;

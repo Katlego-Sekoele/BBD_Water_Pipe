@@ -43,9 +43,9 @@ function oppositeDirections(direction1, direction2)
 // Water purity level
 const PurityLevel = {
 	CLEAN: 0,
-	HIGH_POLLUTED: 1,
+	HIGH_POLLUTED: 3,
 	MEDIUM_POLLUTED: 2,
-	LOW_POLLUTED: 3
+	LOW_POLLUTED: 1
 }
 
 // Purifies the water
@@ -87,6 +87,7 @@ class GameEntity
 	
 	get inGrid(){return this.inGrid_;}
 	get kind(){return this.kind_;}
+	set purity(purityLevel){this.purity_ = purityLevel;}
 	
 	// Passes the water to an object 
 	passWater(otherObject)
@@ -102,7 +103,9 @@ class GameEntity
 	{
 		for (let out of this.outPos())
 		{
-			console.log("A position");
+			if (this.kind_ === ObjectType.CHECKPIPE){
+				console.log("Checking CHECKPIPE connection");
+			}
 			if (out.x === nextObject.position.x && out.y === nextObject.position.y && out.direction === nextObject.inGrid)
 			{
 				return true;
@@ -262,34 +265,34 @@ class GameEntity
 		}
 		else if (this.kind_ == ObjectType.CHECKPIPE)
 		{
-			if (this.hasCleanWater === true){
+			if (this.purity_ === PurityLevel.CLEAN){
 				switch (this.faceDirection_){
 					case Direction.NORTH:
 						return [{
 							y: this.position_.y,
 							x: this.position_.x-1,
-							direction: this.faceDirection_
+							direction: Direction.WEST
 						}]
 					break;
 					case Direction.EAST:
 						return [{
-							y: this.position_.y+1,
+							y: this.position_.y-1,
 							x: this.position_.x,
-							direction: this.faceDirection_
+							direction: Direction.NORTH
 						}] 
 					break;
 					case Direction.SOUTH:
 						return [{
 							y: this.position_.y,
 							x: this.position_.x+1,
-							direction: this.faceDirection_
+							direction: Direction.EAST
 						}]
 					break;
 					case Direction.WEST:
 						return [{
-							y: this.position_.y-1,
+							y: this.position_.y+1,
 							x: this.position_.x,
-							direction: this.faceDirection_
+							direction: Direction.SOUTH
 						}]
 					break;
 					default:
@@ -301,28 +304,28 @@ class GameEntity
 						return [{
 							y: this.position_.y,
 							x: this.position_.x+1,
-							direction: this.faceDirection_
+							direction: Direction.EAST
 						}]
 					break;
 					case Direction.EAST:
 						return [{
-							y: this.position_.y-1,
+							y: this.position_.y+1,
 							x: this.position_.x,
-							direction: this.faceDirection_
+							direction: Direction.SOUTH
 						}] 
 					break;
 					case Direction.SOUTH:
 						return [{
 							y: this.position_.y,
 							x: this.position_.x-1,
-							direction: this.faceDirection_
+							direction: Direction.WEST
 						}]
 					break;
 					case Direction.WEST:
 						return [{
-							y: this.position_.y+1,
+							y: this.position_.y-1,
 							x: this.position_.x,
-							direction: this.faceDirection_
+							direction: Direction.NORTH
 						}]
 					break;
 					default:
@@ -519,6 +522,7 @@ class GameEntity
 		{
 			case ObjectType.PIPE:
 			{
+				console.log("PIPE InGrid");
 				if (faceDirection === Direction.NORTH)
 					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
@@ -555,6 +559,7 @@ class GameEntity
 				break;
 			case ObjectType.CHECKPIPE:
 			{
+				console.log("CHECKPIPE InGrid");
 				if (faceDirection === Direction.NORTH)
 					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
@@ -652,6 +657,8 @@ class GameEntity
 					return Direction.EAST;
 			}
 				break;
+			default:
+				console.log("Unrecognised");
 	}
 }
 		
