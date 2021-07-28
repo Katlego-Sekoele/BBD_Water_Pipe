@@ -645,7 +645,7 @@ class GameEntity
 					return null;
 			}
 				break;
-			case ObjectType.END
+			case ObjectType.END:
 			{
 				if (faceDirection === Direction.NORTH)
 					return null;
