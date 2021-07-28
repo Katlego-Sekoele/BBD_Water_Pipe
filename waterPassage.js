@@ -57,6 +57,11 @@ class GameEntity
 		this.purity_ = purity;
 		this.faceDirection_  = faceDirection
 		this.position_ = position;
+		if ()
+		{
+		}
+		this.inGrid = 
+		this.outGrid = {{}}
 	}
 	
 	// Checks if water in the object is clean
@@ -78,7 +83,7 @@ class GameEntity
 	// Checks if a connection between this and another object is valid
 	connectsTo(nextObject)
 	{
-		
+		this.outPos();
 	}
 	
 	// Return the end points of an object 
@@ -86,7 +91,7 @@ class GameEntity
 	{
 		if (type == ObjectType.SOURCE)
 		{
-			
+			return[{}]
 		}
 		if (type === ObjectType.PIPE)
 		{
@@ -96,15 +101,45 @@ class GameEntity
 		{
 			return [{}]
 		}
+		else if (type == ObjectType.BENDRIGHT)
+		{
+			return [{}]
+		}
 		else if (type == ObjectType.CHECKPIPE)
 		{
-			
+			return [{}]
 		}
-		else if (type == ObjectType.BENDLEFT)
+		else if (type == ObjectType.DOUBLEDUAL)
 		{
-			
+			return [{}]
 		}
-		else if (type == ObjectType.
+		else if (type == ObjectType.DOUBLELEFT)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.DOUBLERIGHT)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.PURIFIER)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.FUNCTIONBLOCK)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.FUNCTIONCALL)
+		{
+			return [{}]
+		}
+		else if (type == ObjectType.FUNCTIONCALL)
+		{
+			return [{}]
+		}
+		else 
+			return [];
+		
 	}
 	
 	set purityLevel(purity) {this.purity_ = purity}
@@ -114,7 +149,7 @@ class GameEntity
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
 function simulate(grid, currPos)
 {	
-	currObject = grid[currPos.row][currPos.col];
+	currObject = grid[currPos.y][currPos.x];
 	
 	// Checking if we have reached the destination
 	// If it is the end, we return true if the water if clean and false otherwise
@@ -130,18 +165,18 @@ function simulate(grid, currPos)
 	const connectedPos = outPos(currObject, currPos);
 	
 	let result; 
-	for (int i = 0; i < connectedPos.length; i++)
+	for (const i = 0; i < connectedPos.length; i++)
 	{
 		const nextPos = connectedPos[i];
-		const nextObect = grid[nextPos.row][nextPos.col];
+		const nextObect = grid[nextPos.y][nextPos.x];
 		
 		// If the other end connects to nothing it is a loss
 		if (nextObject === null)
-			return {outcome:false, "Open line. Water is wasted."};
+			return {outcome:false, message:"Open line. Water is wasted."};
 			
 		// If an end cannot successfully connect with next object it is a loss 
 		if(!currObject.connectsTo(nextObject))
-			return {outcome:false, "Blocked water passsage."}
+			return {outcome:false, message:"Blocked water passsage."}
 		
 		// Pass water to the next object 
 		currObject.passWater(nextObect);
