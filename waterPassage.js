@@ -14,6 +14,33 @@ const ObjectType = {
 	END: 11
 }
 
+function objectName(type)
+{
+	switch(type)
+	{
+		case ObjectType.SOURCE:
+			return "Source";
+		case ObjectType.PIPE:
+			return "Regular pipe";
+		case ObjectType.BENDLEFT:
+			return "Bendleft pipe";
+		case ObjectType.BENDRIGHT:
+			return "Bendright pipe";
+		case ObjectType.CHECKPIPE:
+			return "Check pipe";
+		case ObjectType.DOUBLEDUAL:
+			return "Double dual pipe";
+		case ObjectType.DOUBLELEFT:
+			return "Double left pipe";
+		case ObjectType.DOUBLERIGHT:
+			return "Double right pipe";
+		case ObjectType.PURIFIER:
+			return "Purifier";
+		case ObjectType.END:
+			return "End";
+	}
+}
+
 // Directions
 const Direction = {
 	SOUTH: 1,
@@ -21,6 +48,22 @@ const Direction = {
 	EAST: 3,
 	WEST: 4
 }
+
+function directionNames(dir)
+{
+	switch(dir)
+	{
+		case Direction.SOUTH:
+			return "up";
+		case Direction.NORTH:
+			return "down";
+		case Direction.EAST:
+			return "right";
+		case Direction.WEST:
+			return "left";
+	}
+}
+
 
 // Water purity level
 const PurityLevel = {
@@ -671,7 +714,7 @@ function simulate(grid, currPos)
 
 	if (currObject.traversed > 20)
 	{
-		return {outcome:false, message:"The water is going in circles and not reaching the end."};
+		return {outcome:false, message:"The water is going in circles and not reaching the end.", err:"The water is going in circles and not reaching the end."};
 	}
 
 	// Checking if we have reached the destination
@@ -681,7 +724,7 @@ function simulate(grid, currPos)
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
 		else
-			return {outcome:false, message:"Dirty water is supplied."}
+			return {outcome:false, message:"Dirty water is supplied.", err:`ERROR! The water is reaching the end dirty {purity level:${currObject.purity}}`}
 	}
 	
 	// Otherwise if it is not the end we try move to the next position(s) connected to by the current object
@@ -695,11 +738,17 @@ function simulate(grid, currPos)
 		
 		// If the other end connects to nothing it is a loss
 		if (nextObject === null)
-			return {outcome:false, message:"Open line. Water is wasted."};
+		{
+			let err = `ERROR! The ${directionNames(nextPos.direction)} out grid of <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}}> is letting out water`
+			return {outcome:false, message:`Open line. Water is wasted.`, err};
+		}
 			
 		// If an end cannot successfully connect with next object it is a loss 
 		if(!currObject.connectsTo(nextObject))
-			return {outcome:false, message:"Blocked water passsage."}
+		{
+			let err = `ERROR! <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}> cannot connet to <${objectName(nextObject.kind)} {${nextObject.position.x}:${nextObject.position.y}}>`
+			return {outcome:false, message:"Blocked water passsage.", err}
+		}
 		
 		// Pass water to the next object 
 		currObject.passWater(nextObject);
