@@ -14,6 +14,7 @@ const ObjectType = {
 	END: 11
 }
 
+
 function objectName(type)
 {
 	switch(type)
@@ -111,6 +112,7 @@ class GameEntity
 
 	get traversed() {return this.traversed_;}
 	increaseTraversed() {this.traversed_++;}
+	resetTraversed() {this.traversed_ = 0}
 	
 	get inGrid(){ return this.inGrid_;}
 	get kind(){ return this.kind_;}
@@ -706,10 +708,21 @@ class GameEntity
 	get position () { return this.position_;}
 }
 
+function resetTravereCount(grid)
+{
+	for (let i = 0; i < grid.length; i++)
+		for (let j = 0; j < grid.length; j++)
+			if (grid[i][j] instanceof GameEntity)
+				grid[i][j].resetTraversed();
+}
+
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
 function simulate(grid, currPos)
 {
 	const currObject = grid[currPos.y][currPos.x];
+
+	if (currObject.kind == ObjectType.SOURCE)
+		resetTravereCount(grid);
 
 	currObject.increaseTraversed();
 
@@ -747,7 +760,7 @@ function simulate(grid, currPos)
 		// If an end cannot successfully connect with next object it is a loss 
 		if(!currObject.connectsTo(nextObject))
 		{
-			let err = `ERROR! <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}> cannot connet to <${objectName(nextObject.kind)} {${nextObject.position.x}:${nextObject.position.y}}>`
+			let err = `ERROR! <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}}> cannot connet to <${objectName(nextObject.kind)} {${nextObject.position.x}:${nextObject.position.y}}>`
 			return {outcome:false, message:"Blocked water passsage.", err}
 		}
 		
