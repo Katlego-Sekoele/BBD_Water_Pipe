@@ -5,7 +5,7 @@ class GameScene extends Phaser.Scene {
 
     OFFSET = 21.875;
     CELL_WIDTH = 43.75;
-    //grid = create_grid();
+    RIGHTEDGE = 743.75;
 
     constructor(){
         super('GameScene');
@@ -42,33 +42,14 @@ class GameScene extends Phaser.Scene {
     generateLevel(this, CURRENT_LEVEL);
 
     //run button
-    var runBtn = this.add.image(743.75-CELL_WIDTH-10,OFFSET, 'run').setOrigin(0,0);
+    var runBtn = this.add.image(RIGHTEDGE-CELL_WIDTH,OFFSET, 'run').setOrigin(0,0);
     runBtn.setInteractive();
     runBtn.setScale(0.08);
 
     //redo button
-    var redoBtn = this.add.image(743.75-CELL_WIDTH-10,OFFSET*2, 'redo').setOrigin(0,0);
+    var redoBtn = this.add.image(RIGHTEDGE-CELL_WIDTH,OFFSET*2, 'redo').setOrigin(0,0);
     redoBtn.setInteractive();
     redoBtn.setScale(0.08);
-
-    /*
-    //create start and end point
-    var start = this.add.sprite(2*CELL_WIDTH, 5*CELL_WIDTH, 'SOURCE');
-    start.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
-    const start_x = (start.x/CELL_WIDTH)-1;
-    const start_y = (start.y/CELL_WIDTH)-1;
-    var start_kind = getKind(start);
-    var start_direction = getDirection(start.angle);
-    grid[start_y][start_x] = new GameEntity(start_kind, PurityLevel.MEDIUM_POLLUTED, start_direction, {y: start_y, x: start_x});
-
-    var end = this.add.sprite(7*CELL_WIDTH, 6*CELL_WIDTH, 'END');
-    end.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
-    const end_x = (end.x/CELL_WIDTH)-1;
-    const end_y = (end.y/CELL_WIDTH)-1;
-    var end_kind = getKind(end);
-    var end_direction = getDirection(end.angle);
-    grid[end_y][end_x] = new GameEntity(end_kind, PurityLevel.CLEAN, end_direction, {y: end_y, x: end_x});
-    */
 
     var previous_position; // previous position of game object in pixels
     var previous_x; // previous x position of game object in the 2D array
@@ -83,9 +64,7 @@ class GameScene extends Phaser.Scene {
         previous_x = (gameObject.x/CELL_WIDTH)-1;
         previous_y = (gameObject.y/CELL_WIDTH)-1;
         gameObject.angle += 90;
-        //if (previous_y != 0){
-            grid[previous_y][previous_x] = null;
-        //}
+        grid[previous_y][previous_x] = null;
         
     });
     
@@ -95,18 +74,16 @@ class GameScene extends Phaser.Scene {
     });
  
     this.input.on('dragend', function(pointer, gameObject, dropZone) {
-        console.log("DRAG END");
         drag_triggered = false;
         let x = (gameObject.x/CELL_WIDTH)-1;
         let y = (gameObject.y/CELL_WIDTH)-1;
         let kind = getKind(gameObject);
         let direction = getDirection(gameObject.angle);
         console.log("GAME OBJECT Y IS: ",gameObject.y);
+
         if (y === 0 || gameObject.x < CELL_WIDTH || gameObject.x > 700 || gameObject.y > 750){
-            //returns the pipe to its previous position
             gameObject.x = previous_position[0];
             gameObject.y = previous_position[1];
-            //console.log(previous_x, previous_y);
             grid[previous_y][previous_x] = new GameEntity(kind, 1, direction, {y: y, x: x});
         }else if (grid[y][x] != null){
             //returns the pipe to its previous position
@@ -117,8 +94,12 @@ class GameScene extends Phaser.Scene {
         }else{
             //sets the new grid position as true (i.e. occupied)
             grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
-            //console.log("Dragend replace grid cell");
-            //grid[previous_y][previous_x] = null;
+            
+            if (previous_y === 0){
+                AVAILABLE_OBJECTS[kind] -= 1;
+                console.log(AVAILABLE_OBJECTS);
+            }
+
         } 
 
         console.log(grid);
@@ -195,7 +176,6 @@ function create_grid(){
 
 function create_sprites(context, number, type) {
     //generates sprites givent the number of sprites needed and the type of sprite needed
-    console.log("Number =", number);
     switch(type) {
         case ObjectType.PIPE:
             for (var i = 0; i < number; i++){
@@ -268,14 +248,96 @@ function create_sprites(context, number, type) {
     
 }
 
+function createImmovables(context, type, y, x, direction){
+    var imageID = getImageID(type);
+    var obj = context.add.sprite((x+1)*CELL_WIDTH, (y+1)*CELL_WIDTH, imageID);
+    obj.angle = getAngle(direction);
+    obj.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
+    obj_x = (obj.x/CELL_WIDTH)-1;
+    obj_y = (obj.y/CELL_WIDTH)-1;
+    var obj_direction = direction;
+    grid[obj_y][obj_x] = new GameEntity(type, PurityLevel.CLEAN, obj_direction, {y: obj_y, x: obj_x});
+}
+
+function getAngle(direction){
+    switch (direction){
+        case Direction.NORTH:
+            return -90;
+            break;
+        case Direction.EAST:
+            return 0;
+            break;
+        case Direction.SOUTH:
+            return 90;
+            break;
+        case Direction.WEST:
+            return -180;
+            break;
+        default:
+            //
+    }
+}
+
+function getImageID(type){
+    switch (type){
+        case ObjectType.SOURCE:
+            return 'SOURCE';
+            break;
+        case ObjectType.PIPE:
+            return 'PIPE';
+            break;
+        case ObjectType.BENDLEFT:
+            return 'BENDLEFT';
+            break;
+        case ObjectType.BENDRIGHT:
+            return 'BENDRIGHT';
+            break;
+        case ObjectType.CHECKPIPE:
+            return 'CHECKPIPE';
+            break;
+        case ObjectType.DOUBLEDUAL:
+            return'DOUBLEDUAL';
+            break;
+        case ObjectType.DOUBLELEFT:
+            return 'DOUBLELEFT';
+            break;
+        case ObjectType.DOUBLERIGHT:
+            return 'DOUBLERIGHT';
+            break;
+        case ObjectType.PURIFIER:
+            return 'PURIFIER'
+            break;
+        case ObjectType.FUNCTIONBLOCK:
+            return 'FUNCTIONBLOCK';
+            break;
+        case ObjectType.FUNCTIONCALL:
+            return 'FUNCTIONCALL';
+            break;
+        case ObjectType.END:
+            return 'END';
+            break;
+        default:
+            //
+    }
+}
+
+
 function generateLevel(context, current_level){
     var current_level_str = current_level + 1 + "";
 
     //var numLevels = LEVELS.numberOFLevels;
     var source_pos = LEVELS[current_level_str].SOURCE;
     var end_pos = LEVELS[current_level_str].END;
-    //var immovables = LEVELS[current_level].IMMOVABLES;
+    var immovables = LEVELS[current_level_str].IMMOVABLES;
     var movables = LEVELS[current_level_str].MOVABLES;
+
+    for (var i = 0; i < movables.length; i++){
+        var key = LEVELS[current_level_str].MOVABLES[i].type;
+        AVAILABLE_OBJECTS[key] = LEVELS[current_level_str].MOVABLES[i].quantity;
+    }
+
+    console.log(AVAILABLE_OBJECTS)
+    
 
     //start
     //console.log(source_pos.x+1);
@@ -285,7 +347,6 @@ function generateLevel(context, current_level){
      start_y = (start.y/CELL_WIDTH)-1;
     var start_kind = getKind(start);
     var start_direction = getDirection(start.angle);
-    console.log(start_x, start_y);
     grid[start_y][start_x] = new GameEntity(start_kind, LEVELS[current_level_str].WATER_PURITY_LEVEL, start_direction, {y: start_y, x: start_x});
 
     //end
@@ -301,8 +362,16 @@ function generateLevel(context, current_level){
     for (var i = 0; i < movables.length; i++){
         var type = movables[i].type;
         var quantity = movables[i].quantity;
-        console.log(movables)
         create_sprites(context, quantity, type);
+    }
+
+    //immovables
+    for (var i = 0; i < immovables.length; i++){
+        var type = immovables[i].type;
+        var y = immovables[i].y;
+        var x = immovables[i].x;
+        var direction = immovables[i].direction;
+        createImmovables(context, type, y, x, direction);
     }
 
 

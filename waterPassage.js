@@ -651,7 +651,7 @@ class GameEntity
 			}
 				break;
 			default:
-				console.log("Unrecognised");
+				//console.log("Unrecognised");
 	}
 }
 		
@@ -661,14 +661,12 @@ class GameEntity
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
 function simulate(grid, currPos)
 {
-	currObject = grid[currPos.y][currPos.x];
-	console.log(currObject);
+	const currObject = grid[currPos.y][currPos.x];
 
 	// Checking if we have reached the destination
 	// If it is the end, we return true if the water if clean and false otherwise
 	if (currObject.kind === ObjectType.END)
 	{
-		console.log("we are at the end");
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
 		else

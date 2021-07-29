@@ -1,1 +1,2 @@
 var CURRENT_LEVEL = 0;
+var AVAILABLE_OBJECTS = {};

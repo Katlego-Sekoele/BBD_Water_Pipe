@@ -12,12 +12,12 @@ class MainMenuScene extends Phaser.Scene {
     }
         
     create(){
-        var runBtn = this.add.image(743.75/2, 743.75/2, 'run');
+        var runBtn = this.add.image(WIDTH/2, HEIGHT/2, 'run');
         runBtn.setInteractive();
         runBtn.setScale(0.08);
 
         this.input.on('gameobjectdown', function(pointer, gameObject){
-            this.scene.start('GameScene');
+            this.scene.start('GameScene').launch('GameInfoScene');
         }, this);
     }
 
