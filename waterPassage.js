@@ -22,24 +22,6 @@ const Direction = {
 	WEST: 4
 }
 
-// Checks if two directions are opposite
-function oppositeDirections(direction1, direction2)
-{
-	switch (direction1)
-	{
-		case Direction.NORTH:
-			return Direction.SOUTH === direction2;
-		case Direction.SOUTH:
-			return Direction.NORTH === direction2;
-		case Direction.EAST:
-			return Direction.WEST === direction2;
-		case Direction.WEST:
-			return Direction.EAST === direction2;
-		default:
-			return true;
-	}
-}
-
 // Water purity level
 const PurityLevel = {
 	CLEAN: 0,
@@ -80,9 +62,7 @@ class GameEntity
 	
 	// Checks if water in the object is clean
 	get hasCleanWater() {
-		if (this.purity_ === PurityLevel.CLEAN)
-			return true;
-		return false;
+		return this.purity_ === PurityLevel.CLEAN
 	}
 	
 	get inGrid(){return this.inGrid_;}
@@ -98,17 +78,34 @@ class GameEntity
 			otherObject.purity = this.purity_;
 	}
 	
+	get isMultipleInGrid()
+	{
+		let thisKind = this.kind_;
+		return thisKind === ObjectType.END ||
+			   thisKind === ObjectType.DOUBLELEFT ||
+			   thisKind == ObjectType.DOUBLERIGHT;
+	}
+
 	// Checks if there is a connection between this and another object, and it is valid
 	connectsTo(nextObject)
 	{
 		for (let out of this.outPos())
 		{
-			if (this.kind_ === ObjectType.CHECKPIPE){
-				console.log("Checking CHECKPIPE connection");
-			}
-			if (out.x === nextObject.position.x && out.y === nextObject.position.y && out.direction === nextObject.inGrid)
+			if (out.x === nextObject.position.x && out.y === nextObject.position.y)
 			{
-				return true;
+				if (nextObject.isMultipleInGrid)
+				{
+					for (let dir of nextObject.inGrid)
+					{
+
+						if (out.direction === dir)
+							return true;
+					}
+				}
+				else if (out.direction === nextObject.inGrid)
+				{
+					return true;
+				}
 			}
 		}
 		
@@ -522,7 +519,6 @@ class GameEntity
 		{
 			case ObjectType.PIPE:
 			{
-				console.log("PIPE InGrid");
 				if (faceDirection === Direction.NORTH)
 					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
@@ -559,7 +555,6 @@ class GameEntity
 				break;
 			case ObjectType.CHECKPIPE:
 			{
-				console.log("CHECKPIPE InGrid");
 				if (faceDirection === Direction.NORTH)
 					return Direction.NORTH;
 				else if (faceDirection === Direction.SOUTH)
@@ -585,11 +580,11 @@ class GameEntity
 			case ObjectType.DOUBLELEFT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return Direction.NORTH;
+					return [Direction.NORTH, ];
 				else if (faceDirection === Direction.SOUTH)
-					return Direction.SOUTH;
+					return [Direction.SOUTH, ];
 				else if (faceDirection === Direction.WEST)
-					return Direction.WEST;
+					return [Direction.WEST, ];
 				else if (faceDirection === Direction.EAST)
 					return Direction.EAST;
 			}
@@ -597,13 +592,13 @@ class GameEntity
 			case ObjectType.DOUBLERIGHT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return Direction.NORTH;
+					return [Direction.NORTH, ];
 				else if (faceDirection === Direction.SOUTH)
-					return Direction.SOUTH;
+					return [Direction.SOUTH, ];
 				else if (faceDirection === Direction.WEST)
-					return Direction.WEST;
+					return [Direction.WEST, ];
 				else if (faceDirection === Direction.EAST)
-					return Direction.EAST;
+					return [Direction.EAST, ];
 			}
 				break;
 			case ObjectType.PURIFIER:
@@ -647,14 +642,7 @@ class GameEntity
 				break;
 			case ObjectType.END:
 			{
-				if (faceDirection === Direction.NORTH)
-					return Direction.NORTH;
-				else if (faceDirection === Direction.SOUTH)
-					return Direction.SOUTH;
-				else if (faceDirection === Direction.WEST)
-					return Direction.WEST;
-				else if (faceDirection === Direction.EAST)
-					return Direction.EAST;
+				return [Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST];
 			}
 				break;
 			default:
@@ -667,14 +655,12 @@ class GameEntity
 
 // Checks if water from the given point reaches to the end CLEAN in all passages that connects the given point to the end
 function simulate(grid, currPos)
-{	console.log("Function runs", currPos);
+{
 	currObject = grid[currPos.y][currPos.x];
-	console.log("CURRENT OBJECT IS ",currObject);
 	// Checking if we have reached the destination
 	// If it is the end, we return true if the water if clean and false otherwise
 	if (currObject.kind === ObjectType.END)
 	{
-		console.log("line 671 runs");
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
 		else
@@ -686,7 +672,7 @@ function simulate(grid, currPos)
 	
 	let result; 
 	for (let i = 0; i < connectedPos.length; i++)
-	{ console.log("looking for connections");
+	{
 		const nextPos = connectedPos[i];
 		const nextObject = grid[nextPos.y][nextPos.x];
 		
