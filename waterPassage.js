@@ -54,9 +54,9 @@ function directionNames(dir)
 	switch(dir)
 	{
 		case Direction.SOUTH:
-			return "up";
-		case Direction.NORTH:
 			return "down";
+		case Direction.NORTH:
+			return "up";
 		case Direction.EAST:
 			return "right";
 		case Direction.WEST:
