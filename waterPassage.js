@@ -58,12 +58,16 @@ class GameEntity
 		this.faceDirection_  = faceDirection
 		this.position_ = position;
 		this.inGrid_ = GameEntity.getInGrid(kind, faceDirection);
+		this.traversed_ = 0;
 	}
 	
 	// Checks if water in the object is clean
 	get hasCleanWater() {
 		return this.purity_ === PurityLevel.CLEAN
 	}
+
+	get traversed() {return this.traversed_;}
+	increaseTraversed() {this.traversed_++;}
 	
 	get inGrid(){return this.inGrid_;}
 	get kind(){return this.kind_;}
@@ -662,6 +666,13 @@ class GameEntity
 function simulate(grid, currPos)
 {
 	const currObject = grid[currPos.y][currPos.x];
+
+	currObject.increaseTraversed();
+
+	if (currObject.traversed > 20)
+	{
+		return {outcome:false, message:"The water is going in circles and not reaching the end."};
+	}
 
 	// Checking if we have reached the destination
 	// If it is the end, we return true if the water if clean and false otherwise
