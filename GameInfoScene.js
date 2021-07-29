@@ -25,6 +25,9 @@ class GameInfoScene extends Phaser.Scene {
             }
         }
 
+        var level_str_ = (1+CURRENT_LEVEL) + '';
+        var water_purity_current_level = LEVELS[level_str_].WATER_PURITY_LEVEL;
+        level_purity = infocontext.add.text(WIDTH-OFFSET-(4*CELL_WIDTH)-20, 700, `The purity level in the source is: ${water_purity_current_level}`, { font: "bold 12px Arial", fill: "#00F", wordWrap: { width: 200, useAdvancedWrap: true } });
         purity_text = infocontext.add.text(WIDTH-OFFSET-(4*CELL_WIDTH)-20, 715, `Currently:\nNot yet started.`, { font: "bold 12px Arial", fill: "#000", wordWrap: { width: 200, useAdvancedWrap: true } });
         console.log("COUNT TEXTS", count_texts)
 
@@ -44,6 +47,7 @@ var idouble_pipe_left;
 var idouble_pipe_right;
 var ipurifier;
 var purity_text;
+var level_purity;
 var simulate_outcome;
 
 function update_text(simulate_outcome_){
