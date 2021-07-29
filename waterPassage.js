@@ -112,9 +112,10 @@ class GameEntity
 	get traversed() {return this.traversed_;}
 	increaseTraversed() {this.traversed_++;}
 	
-	get inGrid(){return this.inGrid_;}
-	get kind(){return this.kind_;}
-	set purity(purityLevel){this.purity_ = purityLevel;}
+	get inGrid(){ return this.inGrid_;}
+	get kind(){ return this.kind_;}
+	set purity(purityLevel){ this.purity_ = purityLevel;}
+	get purity(){ return this.purity_;}
 	
 	// Passes the water to an object 
 	passWater(otherObject)
