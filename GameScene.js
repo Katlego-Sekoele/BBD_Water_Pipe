@@ -15,6 +15,8 @@ class GameScene extends Phaser.Scene {
         this.load.image('board', 'assets/grid.png');
         this.load.image('run', 'assets/run.png');
         this.load.image('redo', 'assets/redo.png');
+        this.load.image('info', 'assets/info.png');
+        this.load.image('HowTo', 'assets/HowTo.png');
 
         this.load.image('SOURCE', 'assets/start.png');
         this.load.image('END', 'assets/end.png');
@@ -36,6 +38,7 @@ class GameScene extends Phaser.Scene {
         //grid background
     //grid = create_grid(); // creates a 2D array of 16x16
     this.add.image(OFFSET, OFFSET+CELL_WIDTH, 'board').setOrigin(0,0); //set the origin of the image to the top-left and add the image to the scene
+    this.scene.launch('GameInfoScene');
 
     //level generation
     console.log(grid);
@@ -50,6 +53,14 @@ class GameScene extends Phaser.Scene {
     var redoBtn = this.add.image(RIGHTEDGE-CELL_WIDTH,OFFSET*2, 'redo').setOrigin(0,0);
     redoBtn.setInteractive();
     redoBtn.setScale(0.08);
+
+    //info button
+    var infoBtn = this.add.image(RIGHTEDGE-CELL_WIDTH, OFFSET*4, 'info').setOrigin(0,0);
+    infoBtn.setInteractive();
+    infoBtn.setScale(2);
+
+    //How to
+    var howTo = this.add.image(0, 0, 'HowTo').setOrigin(0,0).setVisible(false);
 
     var previous_position; // previous position of game object in pixels
     var previous_x; // previous x position of game object in the 2D array
@@ -80,6 +91,7 @@ class GameScene extends Phaser.Scene {
         let kind = getKind(gameObject);
         let direction = getDirection(gameObject.angle);
         console.log("GAME OBJECT Y IS: ",gameObject.y);
+     
 
         if (y === 0 || gameObject.x < CELL_WIDTH || gameObject.x > 700 || gameObject.y > 750){
             gameObject.x = previous_position[0];
@@ -97,48 +109,54 @@ class GameScene extends Phaser.Scene {
             
             if (previous_y === 0){
                 AVAILABLE_OBJECTS[kind] -= 1;
-                console.log(AVAILABLE_OBJECTS);
+                
+                
             }
-
+            
         } 
-
-        console.log(grid);
+        let result = simulate(grid, {y: start_y, x: start_x});
+        console.log(result.message)
+        update_text(result);
         
     });
     
     this.input.on('gameobjectdown', function(pointer, gameObject){
         //rotates the pipe 90 degrees on click
         //FIX: the game rotates the object when the user drags, 
-
-        if (gameObject.texture.key != 'run' && gameObject.texture.key != 'redo'){
-            // gameObject.angle += 90;
-            // let x = (gameObject.x/CELL_WIDTH)-1;
-            // let y = (gameObject.y/CELL_WIDTH)-1;
-            // let kind = getKind(gameObject);
-            // let direction = getDirection(gameObject.angle);
-            // grid[y][x] = new GameEntity(kind, 1, direction, {y: y, x: x});
-            // console.log("Creating game entity");
-        }else if (gameObject.texture.key === 'run'){
+        if (gameObject.texture.key === 'info'){
+            console.log("INFO CLICKED")
+            howTo.setVisible(true)
+            howTo.setInteractive();
+            this.scene.sendToBack('GameInfoScene');
+        }else if (gameObject.texture.key === 'HowTo'){
+            //hide splash
+            howTo.disableInteractive();
+            howTo.setVisible(false);
+        }
+        else if (gameObject.texture.key === 'run'){
             let result = simulate(grid, {y: start_y, x: start_x});
-            if (result.outcome){
+            if (result.outcome && CURRENT_LEVEL === LEVELS.numberOFLevels-1){
+                this.scene.start('WinScene');
+            }else if (result.outcome){
                 //move on to the next level
                 CURRENT_LEVEL ++;
                 //do some fancy animation
                 //restart scene
+                update_text(result);
                 grid = create_grid();
                 this.registry.destroy(); // destroy registry
                 this.events.off(); // disable all active events
-                this.scene.restart(); // restart current scene
+                this.scene.restart('GameScene') // restart current scene
             }
             alert(result.message);
-            console.log(grid);
+            
         }else if (gameObject.texture.key === 'redo'){
             //redo current level
             grid = create_grid();
             this.registry.destroy(); // destroy registry
             this.events.off(); // disable all active events
-            this.scene.restart(); // restart current scene
-        }
+            this.scene.restart(); // restart current scene           
+        };
         
          
     }, this);
@@ -323,6 +341,7 @@ function getImageID(type){
 
 
 function generateLevel(context, current_level){
+    
     var current_level_str = current_level + 1 + "";
 
     //var numLevels = LEVELS.numberOFLevels;
@@ -334,10 +353,7 @@ function generateLevel(context, current_level){
     for (var i = 0; i < movables.length; i++){
         var key = LEVELS[current_level_str].MOVABLES[i].type;
         AVAILABLE_OBJECTS[key] = LEVELS[current_level_str].MOVABLES[i].quantity;
-    }
-
-    console.log(AVAILABLE_OBJECTS)
-    
+    } 
 
     //start
     //console.log(source_pos.x+1);
@@ -350,7 +366,7 @@ function generateLevel(context, current_level){
     grid[start_y][start_x] = new GameEntity(start_kind, LEVELS[current_level_str].WATER_PURITY_LEVEL, start_direction, {y: start_y, x: start_x});
 
     //end
-    var end = context.add.sprite((end_pos.x+1)*CELL_WIDTH, (end_pos.x+1)*CELL_WIDTH, 'END');
+    var end = context.add.sprite((end_pos.x+1)*CELL_WIDTH, (end_pos.y+1)*CELL_WIDTH, 'END');
     end.setScale(0.35); // resize the pipe to be the same height as a cell on the grid
     const end_x = (end.x/CELL_WIDTH)-1;
     const end_y = (end.y/CELL_WIDTH)-1;
@@ -374,6 +390,8 @@ function generateLevel(context, current_level){
         createImmovables(context, type, y, x, direction);
     }
 
+    let result = simulate(grid, {y: start_y, x: start_x});
+    update_text(result.outcome);
 
 }
 

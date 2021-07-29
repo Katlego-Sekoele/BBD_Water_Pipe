@@ -15,8 +15,10 @@ var config = {
         }
     },
     scene: [ MainMenuScene, 
+        SplashScene,
         GameScene, 
-        GameInfoScene]
+        GameInfoScene,
+        WinScene]
 };
  
 var game = new Phaser.Game(config); 

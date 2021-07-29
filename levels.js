@@ -17,57 +17,48 @@ const ObjectType = {
 
 
 var LEVELS = {
-	numberOFLevels:1,
+	numberOFLevels:3,
 	"1":{
 		SOURCE:{y:2,x:4},
 		END:{y:6,x:6},
-		WATER_PURITY_LEVEL:1,
-		IMMOVABLES:[
-			{type:ObjectType.CHECKPIPE, y: 2, x:5, direction: Direction.EAST}
-		],
+		WATER_PURITY_LEVEL:0,
+		IMMOVABLES:[],
 		MOVABLES:[
-			{type:ObjectType.PIPE,quantity:10},
-			{type:ObjectType.BENDRIGHT,quantity:10},
-			{type:ObjectType.BENDLEFT,quantity:10},
-			{type:ObjectType.DOUBLELEFT,quantity:3},
-			{type:ObjectType.DOUBLERIGHT,quantity:3},
-			{type:ObjectType.DOUBLEDUAL,quantity:5},
-			{type: ObjectType.PURIFIER, quantity: 2}
+			{type:ObjectType.PIPE,quantity:5},
+			{type:ObjectType.BENDRIGHT,quantity:2},
+			{type:ObjectType.BENDLEFT,quantity:2},
 		]
 	},
 	"2":{
 		SOURCE:{y:5,x:5},
 		END:{y:9,x:8},
-		WATER_PURITY_LEVEL:1,
-		IMMOVABLES:[],
+		WATER_PURITY_LEVEL:2,
+		IMMOVABLES:[
+			{type:ObjectType.CHECKPIPE, y: 5, x:6, direction: Direction.EAST}
+		],
 		MOVABLES:[
 			{type:ObjectType.PURIFIER,quantity:2},
-			{type:ObjectType.CHECKPIPE,quantity:3},
-			{type:ObjectType.PIPE,quantity:10},
-			{type:ObjectType.BENDRIGHT,quantity:15},
-			{type:ObjectType.BENDLEFT,quantity:15},
-			{type:ObjectType.BENDLEFT,quantity:15},
-			{type:ObjectType.DOUBLELEFT,quantity:5},
-			{type:ObjectType.DOUBLERIGHT,quantity:5},
-			{type:ObjectType.DOUBLEDUAL,quantity:5}
-			
+			{type:ObjectType.PIPE,quantity:5},
+			{type:ObjectType.BENDRIGHT,quantity:4},
+			{type:ObjectType.BENDLEFT,quantity:4},
 		]
 	
 	},
 	"3":{
 		SOURCE:{y:7,x:7},
-		END:{y:11,x:11},
+		END:{y:8,x:11},
 		WATER_PURITY_LEVEL:3,
-		IMMOVABLES:[],
+		IMMOVABLES:[
+			{type:ObjectType.CHECKPIPE, y: 7, x:10, direction: Direction.WEST}
+		],
 		MOVABLES:[
-			{type:ObjectType.PURIFIER,quantity:4},
-			{type:ObjectType.CHECKPIPE,quantity:5},
-			{type:ObjectType.PIPE,quantity:30},
-			{type:ObjectType.BENDRIGHT,quantity:20},
-			{type:ObjectType.BENDLEFT,quantity:20},
-			{type:ObjectType.DOUBLELEFT,quantity:10},
-			{type:ObjectType.DOUBLERIGHT,quantity:10},
-			{type:ObjectType.DOUBLEDUAL,quantity:10},
+			{type:ObjectType.PURIFIER,quantity:1},
+			{type:ObjectType.PIPE,quantity:10},
+			{type:ObjectType.BENDRIGHT,quantity:6},
+			{type:ObjectType.BENDLEFT,quantity:6},
+			{type:ObjectType.DOUBLELEFT,quantity:1},
+			{type:ObjectType.DOUBLERIGHT,quantity:1},
+			{type:ObjectType.DOUBLEDUAL,quantity:1},
 		]
 	
 	}
