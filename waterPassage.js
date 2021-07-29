@@ -714,7 +714,7 @@ function simulate(grid, currPos)
 
 	if (currObject.traversed > 20)
 	{
-		return {outcome:false, message:"The water is going in circles and not reaching the end.", err:"The water is going in circles and not reaching the end."};
+		return {outcome:false, message:"The water is going in circles and do not reaching the end.", err:"The water is going in circles and do not reaching the end."};
 	}
 
 	// Checking if we have reached the destination
@@ -724,7 +724,7 @@ function simulate(grid, currPos)
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
 		else
-			return {outcome:false, message:"Dirty water is supplied.", err:`ERROR! The water is reaching the end dirty {purity level:${currObject.purity}}`}
+			return {outcome:false, message:"Dirty water is supplied.", err:`ERROR! DIRTY water reaching the end {purity level:${currObject.purity} MUST BE 0.}`}
 	}
 	
 	// Otherwise if it is not the end we try move to the next position(s) connected to by the current object
@@ -739,7 +739,7 @@ function simulate(grid, currPos)
 		// If the other end connects to nothing it is a loss
 		if (nextObject === null)
 		{
-			let err = `ERROR! The ${directionNames(nextPos.direction)} out grid of <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}}> is letting out water`
+			let err = `ERROR! The ${directionNames(nextPos.direction).toUpperCase()} out-grid of <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}}> is OPEN`
 			return {outcome:false, message:`Open line. Water is wasted.`, err};
 		}
 			
