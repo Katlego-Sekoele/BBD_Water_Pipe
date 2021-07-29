@@ -753,14 +753,14 @@ function simulate(grid, currPos)
 		// If the other end connects to nothing it is a loss
 		if (nextObject === null)
 		{
-			let err = `ERROR! The ${directionNames(nextPos.direction).toUpperCase()} out-grid of <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}}> is OPEN`
+			let err = `ERROR! The ${directionNames(nextPos.direction).toUpperCase()} out-grid of <${objectName(currObject.kind)} {${currObject.position.x + 1}:${currObject.position.y}}> is OPEN`
 			return {outcome:false, message:`Open line. Water is wasted.`, err};
 		}
 			
 		// If an end cannot successfully connect with next object it is a loss 
 		if(!currObject.connectsTo(nextObject))
 		{
-			let err = `ERROR! <${objectName(currObject.kind)} {${currObject.position.x}:${currObject.position.y}}> cannot connet to <${objectName(nextObject.kind)} {${nextObject.position.x}:${nextObject.position.y}}>`
+			let err = `ERROR! <${objectName(currObject.kind)} {${currObject.position.x + 1}:${currObject.position.y}}> cannot connet to <${objectName(nextObject.kind)} {${nextObject.position.x + 1}:${nextObject.position.y}}>`
 			return {outcome:false, message:"Blocked water passsage.", err}
 		}
 		
