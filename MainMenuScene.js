@@ -1,0 +1,24 @@
+class MainMenuScene extends Phaser.Scene {
+    OFFSET = 21.875;
+    CELL_WIDTH = 43.75;
+
+    constructor(){
+        super('MainMenuScene');
+    }
+
+    preload (){
+        this.load.image('run', 'assets/run.png');
+        
+    }
+        
+    create(){
+        var runBtn = this.add.image(743.75/2, 743.75/2, 'run');
+        runBtn.setInteractive();
+        runBtn.setScale(0.08);
+
+        this.input.on('gameobjectdown', function(pointer, gameObject){
+            this.scene.start('GameScene');
+        }, this);
+    }
+
+}
