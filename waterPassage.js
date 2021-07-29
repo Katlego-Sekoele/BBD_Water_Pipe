@@ -347,16 +347,19 @@ class GameEntity
 					}]
 				break;
 				case Direction.EAST:
-					return [{
+					console.log("EAST")
+					return [
+						{
+							y: this.position_.y+1,
+							x: this.position_.x,
+							direction: Direction.SOUTH
+						},
+						{
 						y: this.position_.y-1,
 						x: this.position_.x,
 						direction: Direction.NORTH
-					},
-					{
-						y: this.position_.y+1,
-						x: this.position_.x,
-						direction: Direction.SOUTH
-					}]
+					}
+					]
 				break;
 				case Direction.SOUTH:
 					return [{
@@ -503,6 +506,8 @@ class GameEntity
 		else if (this.kind_ == ObjectType.FUNCTIONCALL)
 		{
 			return [{}]
+		}else if (this.kind_ === ObjectType.END){
+			console.log("This type is END")
 		}
 		else {
 			console.log("Unrecognised type")
@@ -657,10 +662,13 @@ class GameEntity
 function simulate(grid, currPos)
 {
 	currObject = grid[currPos.y][currPos.x];
+	console.log(currObject);
+
 	// Checking if we have reached the destination
 	// If it is the end, we return true if the water if clean and false otherwise
 	if (currObject.kind === ObjectType.END)
 	{
+		console.log("we are at the end");
 		if (currObject.hasCleanWater)
 			return {outcome:true, message:"Clean water is supplied."}
 		else
