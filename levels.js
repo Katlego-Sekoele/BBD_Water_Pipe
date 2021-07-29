@@ -20,7 +20,7 @@ var LEVELS = {
 	numberOFLevels:1,
 	"1":{
 		SOURCE:{y:2,x:4},
-		END:{y:7,x:6},
+		END:{y:6,x:6},
 		WATER_PURITY_LEVEL:1,
 		IMMOVABLES:[
 			{type:ObjectType.CHECKPIPE, y: 2, x:5, direction: Direction.EAST}
@@ -36,7 +36,7 @@ var LEVELS = {
 		]
 	},
 	"2":{
-		SOURCE:{y:2,x:4},
+		SOURCE:{y:5,x:5},
 		END:{y:9,x:8},
 		WATER_PURITY_LEVEL:1,
 		IMMOVABLES:[],
@@ -55,7 +55,7 @@ var LEVELS = {
 	
 	},
 	"3":{
-		SOURCE:{y:2,x:4},
+		SOURCE:{y:7,x:7},
 		END:{y:11,x:11},
 		WATER_PURITY_LEVEL:3,
 		IMMOVABLES:[],
