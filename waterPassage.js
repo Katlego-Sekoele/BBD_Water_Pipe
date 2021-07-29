@@ -580,25 +580,25 @@ class GameEntity
 			case ObjectType.DOUBLELEFT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return [Direction.NORTH, ];
+					return [Direction.NORTH,Direction.WEST];
 				else if (faceDirection === Direction.SOUTH)
-					return [Direction.SOUTH, ];
+					return [Direction.SOUTH,Direction.EAST ];
 				else if (faceDirection === Direction.WEST)
-					return [Direction.WEST, ];
+					return [Direction.WEST,Direction.SOUTH ];
 				else if (faceDirection === Direction.EAST)
-					return Direction.EAST;
+					return [Direction.EAST,Direction.NORTH];
 			}
 				break;
 			case ObjectType.DOUBLERIGHT:
 			{
 				if (faceDirection === Direction.NORTH)
-					return [Direction.NORTH, ];
+					return [Direction.NORTH,Direction.EAST ];
 				else if (faceDirection === Direction.SOUTH)
-					return [Direction.SOUTH, ];
+					return [Direction.SOUTH,Direction.WEST ];
 				else if (faceDirection === Direction.WEST)
-					return [Direction.WEST, ];
+					return [Direction.WEST,Direction.NORTH ];
 				else if (faceDirection === Direction.EAST)
-					return [Direction.EAST, ];
+					return [Direction.EAST,Direction.SOUTH];
 			}
 				break;
 			case ObjectType.PURIFIER:
